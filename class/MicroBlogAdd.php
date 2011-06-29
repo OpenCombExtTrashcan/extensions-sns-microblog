@@ -23,6 +23,8 @@ use jc\message\Message;                        //消息类
 use jc\verifier\Length;                         //长度校验类
 use jc\verifier\NotEmpty;                       //非空校验类
 use jc\mvc\view\DataExchanger ;                 //数据交换类
+use jc\auth\IdManager;                          //用户SESSION类
+
 /**
  *   微博发布类
  *   @package    microblog
@@ -49,7 +51,10 @@ class MicroBlogAdd extends Controller {
         $this->createView("defaultView", "MicroBlogAdd.html", true);
 
         //为视图创建、添加textarea文本组件(Text::multiple 复文本) （Text::single 标准文本）
-        $this->defaultView->addWidget(new Text("text", "内容", "", Text::multiple), 'text')->dataVerifiers ()->add ( Length::flyweight(0,140),"长度不能超过140个字" )->add ( NotEmpty::singleton(), "必须输入" );
+        $this->defaultView->addWidget(new Text("text", "内容", "", Text::multiple), 'text')
+                            ->dataVerifiers ()
+                                ->add ( Length::flyweight(0,140),"长度不能超过140个字" )
+                                ->add ( NotEmpty::singleton(), "必须输入" );
         
         /*
           // 为视图创建、添加images文本组件
@@ -88,8 +93,8 @@ class MicroBlogAdd extends Controller {
                 //将视图组件的数据与模型交换
                 $this->defaultView->exchangeData(DataExchanger::WIDGET_TO_MODEL) ;
                 
-                //用户ID
-                $this->defaultView->model()->setData('uid', '1');
+                //用户ID（IdManager::fromSession()->currentId()->userId() 取得用户ID）
+                $this->defaultView->model()->setData('uid', IdManager::fromSession()->currentId()->userId());
 
                 //发布时间
                 $this->defaultView->model()->setData('time', time());
