@@ -103,10 +103,16 @@ class MicroBlogAdd extends Controller {
                 $this->defaultView->model()->setData('client', 'web');
 
                 try {
+                    
+                    //保存数据
                     $this->defaultView->model()->save();
+                    
+                    //创建提示消息
                     $this->defaultView->createMessage(Message::success, "发布成功！");
-
+                    
+                    //隐藏表单
                     $this->defaultView->hideForm();
+                    
                 } catch (ExecuteException $e) {
                     throw $e;
                 }
