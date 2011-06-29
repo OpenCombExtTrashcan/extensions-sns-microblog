@@ -1,0 +1,5 @@
+<foreach for="$theModel->childIterator()" item="row">
+	
+			{= $row->data('text') }  <a href="?cMicroBlogDelete&id={= $row->data('mbid') }">删除</a> <br/>
+			
+</foreach>
