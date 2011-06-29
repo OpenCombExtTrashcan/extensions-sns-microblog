@@ -75,7 +75,7 @@ class MicroBlogAdd extends Controller {
     /**
      *    业务逻辑处理
      *    @param      null
-     *    @package    weibo 
+     *    @package    microblog 
      *    @return     null
      *    @author     luwei
      *    @created    2011-06-28
