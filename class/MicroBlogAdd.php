@@ -48,12 +48,9 @@ class MicroBlogAdd extends Controller {
         //创建默认视图
         $this->createView("defaultView", "MicroBlogAdd.html", true);
 
-        //为视图创建、添加textarea文本组件
-        $this->defaultView->addWidget(new Text("text", "内容", "", Text::multiple), 'text')
-                ->addVerifier(Length::flyweight(1, 140));
-        $this->defaultView->addWidget(new Text("text", "内容", "", Text::multiple), 'text')
-                ->addVerifier(NotEmpty::singleton(), "必须输入");
-
+        //为视图创建、添加textarea文本组件(Text::multiple 复文本) （Text::single 标准文本）
+        $this->defaultView->addWidget(new Text("text", "内容", "", Text::multiple), 'text')->dataVerifiers ()->add ( Length::flyweight(0,140),"长度不能超过140个字" )->add ( NotEmpty::singleton(), "必须输入" );
+        
         /*
           // 为视图创建、添加images文本组件
           $this->defaultView->addWidget( new Text("images","图片"), 'images' );
