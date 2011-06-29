@@ -43,9 +43,9 @@ class MicroBlogList extends Controller {
         
         //创建默认视图
         $this->createView("defaultView", "MicroBlogList.html", true);
-        
+                
         //设定模型
-        $this->defaultView->setModel(Model::fromFragment('microblog'));
+        $this->defaultView->setModel(Model::fromFragment('microblog',array(),true));
         
     }
     
@@ -61,9 +61,10 @@ class MicroBlogList extends Controller {
         
         //载入当前用户的所有微博
         $userList = IdManager::fromSession();
-        $this->defaultView->model()->load($userList->currentId()->userId(),"uid");
-        var_dump($this->defaultView->model());
-       
+        $this->defaultView->model()->load($userList->currentId()->userId(),"uid");        
+//        foreach ($this->defaultView->model()->childIterator() as $row){
+//			echo "<pre>";print_r($row->data("text"));echo "</pre>";
+//		}
     }
 }
 
