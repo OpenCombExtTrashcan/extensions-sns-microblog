@@ -98,6 +98,9 @@ class MicroBlog extends Extension {
         
         //加载微博发布控制器
         $this->application()->accessRouter()->addController('MicroBlogAdd', "oc\\ext\\microblog\\MicroBlogAdd");
+        
+        //加载微博删除控制器
+        $this->application()->accessRouter()->addController('MicroBlogDelete', "oc\\ext\\microblog\\MicroBlogDelete");
     }
 
 }
