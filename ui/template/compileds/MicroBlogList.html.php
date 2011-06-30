@@ -8,7 +8,7 @@ return \$__uivar_theModel->childIterator();");
 						 $aVariables->set("row",$__foreach_item_var1 ); ?>
 	
 			<?php echo eval("if(!isset(\$__uivar_row)){ \$__uivar_row=&\$aVariables->getRef('row') ;};
-return \$__uivar_row->data('text');") ;?>  <a href="?cMicroBlogDelete&id=<?php echo eval("if(!isset(\$__uivar_row)){ \$__uivar_row=&\$aVariables->getRef('row') ;};
+return \$__uivar_row->data('text');") ;?>  <a href="?c=MicroBlogDelete&id=<?php echo eval("if(!isset(\$__uivar_row)){ \$__uivar_row=&\$aVariables->getRef('row') ;};
 return \$__uivar_row->data('mbid');") ;?>">删除</a> <br />
 			
 <?php 
