@@ -18,6 +18,7 @@ use jc\mvc\controller\Controller;               //控制器类
 use oc\base\FrontFrame;                         //视图框架类
 use jc\mvc\model\db\orm\ModelAssociationMap;    //模型关系类
 use jc\mvc\model\db\Model;                      //模型类
+use jc\mvc\controller\Relocater;                //回调类
 
 /**
  *   微博删除类
@@ -43,7 +44,7 @@ class MicroBlogDelete extends Controller {
         $this->add(new FrontFrame());
 
         //设定模型
-        $this->defaultView->setModel(Model::fromFragment('microblog'));
+        $this->model=Model::fromFragment('microblog');
     }
 
     /**
@@ -56,8 +57,8 @@ class MicroBlogDelete extends Controller {
      */
     public function process() {
 
-        $this->defaultView->model()->load($this->aParams->get("id"), "bid");
-        $this->defaultView->model()->delete();
+        $this->model->load($this->aParams->get("id"), "mbid");
+        $this->model->delete();
 
         Relocater::locate("/?c=MicroBlogList", "删除成功");
     }

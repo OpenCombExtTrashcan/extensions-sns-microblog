@@ -24,6 +24,7 @@ use jc\verifier\Length;                         //长度校验类
 use jc\verifier\NotEmpty;                       //非空校验类
 use jc\mvc\view\DataExchanger ;                 //数据交换类
 use jc\auth\IdManager;                          //用户SESSION类
+use jc\mvc\controller\Relocater;                //回调类
 
 /**
  *   微博发布类
@@ -107,11 +108,8 @@ class MicroBlogAdd extends Controller {
                     //保存数据
                     $this->defaultView->model()->save();
                     
-                    //创建提示消息
-                    $this->defaultView->createMessage(Message::success, "发布成功！");
-                    
-                    //隐藏表单
-                    $this->defaultView->hideForm();
+                    //创建提示消息                    
+                    Relocater::locate("/?c=MicroBlogList", "发布成功！");                    
                     
                 } catch (ExecuteException $e) {
                     throw $e;
