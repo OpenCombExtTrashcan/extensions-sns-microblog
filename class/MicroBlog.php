@@ -43,56 +43,83 @@ class MicroBlog extends Extension {
         $aAssocMap->addOrm(
                 array(
                     'keys' => 'mbid', //主键
-                    'table' => 'microblog', //模型名称
-                    //与topic关系
-                    'hasOne' => array(
-                        array(
-                            'prop' => 'topic', //属性名
-                            'fromk' => 'mbid', //主键
-                            'tok' => 'mbid', //外键
-                            'model' => 'topic'  //模型名称
-                        ),
-                    ),
-                    //与user关系
+                    'table' => 'microblog', //模型名称                                    
+                    
                     'belongsTo' => array(
+                        //与user关系
                         array(
-                            'prop' => 'user', //属性名
+                            'prop' => 'userto', //属性名
                             'fromk' => 'uid', //主键
                             'tok' => 'uid', //外键
-                            'model' => 'user' //模型名称
-                        )
-                    ),
-                    //与at关系
+                            'model' => 'user'  //模型名称
+                        ),
+                    ), 
                     'hasAndBelongsToMany' => array(
+                        //与user关系
                         array(
-                            'prop' => 'at', //属性名
+                            'prop' => 'user', //属性名
                             'fromk' => 'mbid', //主键
                             'tok' => 'mbid', //外键
                             'bfromk' => 'uid', //从主键
                             'btok' => 'at_uid', //从外键
+                            'bridge' => 'at', //从模型名称
+                            'model' => 'user', //模型名称
+                        ),
+                        //与tag关系
+                        array(
+                            'prop' => 'tag', //属性名
+                            'fromk' => 'mbid', //主键
+                            'tok' => 'mbid', //外键
+                            'bfromk' => 'mbtid', //从主键
+                            'btok' => 'mbtid', //从外键
+                            'bridge' => 'mb_link', //从模型名称
+                            'model' => 'tag', //模型名称
+                        )
+                    ),
+                )
+        );
+        
+        //tag模型关系
+        $aAssocMap->addOrm(
+                array(
+                    'keys' => 'mbtid', //主键
+                    'table' => 'tag', //模型名称
+                    
+                    'hasAndBelongsToMany' => array(
+                        //与microblog关系
+                        array(
+                            'prop' => 'microblog', //属性名
+                            'fromk' => 'mbtid', //主键
+                            'tok' => 'mbtid', //外键
+                            'bfromk' => 'mbid', //从主键
+                            'btok' => 'mbid', //从外键
+                            'bridge' => 'mb_link', //从模型名称
+                            'model' => 'microblog', //模型名称
+                        )
+                    ),
+                )
+        );
+        
+        //user模型关系
+        $aAssocMap->addOrm(
+                array(
+                    'keys' => 'uid', //主键
+                    'table' => 'user', //模型名称
+                    //与microblog关系                    
+                    'hasAndBelongsToMany' => array(
+                        array(
+                            'prop' => 'microblog', //属性名
+                            'fromk' => 'uid', //主键
+                            'tok' => 'at_uid', //外键
+                            'bfromk' => 'mbid', //从主键
+                            'btok' => 'mbid', //从外键
                             'bridge' => 'at', //从模型名称
                             'model' => 'microblog', //模型名称
                         ),
                     ),
                 )
         );
-        //topic模型关系
-        $aAssocMap->addOrm(
-                array(
-                    'keys' => 'mbid', //主键
-                    'table' => 'topic', //模型名称
-                    //与microblog关系
-                    'belongsTo' => array(
-                        array(
-                            'prop' => 'microblog', //属性名
-                            'fromk' => 'mbid', //主键
-                            'tok' => 'mbid', //外键
-                            'model' => 'microblog' //模型名称
-                        )
-                    ),
-                )
-        );
-
+        
         //加载微博列表控制器
         $this->application()->accessRouter()->addController('MicroBlogList', "oc\\ext\\microblog\\MicroBlogList");
         
