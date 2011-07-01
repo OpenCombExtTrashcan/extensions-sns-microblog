@@ -73,7 +73,7 @@ class MicroBlog extends Extension {
                             'bfromk' => 'mbtid', //从主键
                             'btok' => 'mbtid', //从外键
                             'bridge' => 'mb_link', //从模型名称
-                            'model' => 'tag', //模型名称
+                            'model' => 'mb_tag', //模型名称
                         )
                     ),
                 )
@@ -83,7 +83,7 @@ class MicroBlog extends Extension {
         $aAssocMap->addOrm(
                 array(
                     'keys' => 'mbtid', //主键
-                    'table' => 'tag', //模型名称
+                    'table' => 'mb_tag', //模型名称
                     
                     'hasAndBelongsToMany' => array(
                         //与microblog关系
@@ -98,27 +98,8 @@ class MicroBlog extends Extension {
                         )
                     ),
                 )
-        );
+        );        
         
-        //user模型关系
-        $aAssocMap->addOrm(
-                array(
-                    'keys' => 'uid', //主键
-                    'table' => 'user', //模型名称
-                    //与microblog关系                    
-                    'hasAndBelongsToMany' => array(
-                        array(
-                            'prop' => 'microblog', //属性名
-                            'fromk' => 'uid', //主键
-                            'tok' => 'at_uid', //外键
-                            'bfromk' => 'mbid', //从主键
-                            'btok' => 'mbid', //从外键
-                            'bridge' => 'at', //从模型名称
-                            'model' => 'microblog', //模型名称
-                        ),
-                    ),
-                )
-        );
         
         //加载微博列表控制器
         $this->application()->accessRouter()->addController('MicroBlogList', "oc\\ext\\microblog\\MicroBlogList");

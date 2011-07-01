@@ -25,6 +25,7 @@ use jc\verifier\NotEmpty;                       //非空校验类
 use jc\mvc\view\DataExchanger ;                 //数据交换类
 use jc\auth\IdManager;                          //用户SESSION类
 use jc\mvc\controller\Relocater;                //回调类
+use jc\db\DB;                                   //数据库类
 
 /**
  *   微博发布类
@@ -70,7 +71,7 @@ class MicroBlogAdd extends Controller {
          */
 
         //设定模型
-        $this->defaultView->setModel(Model::fromFragment('microblog'));
+        $this->defaultView->setModel(Model::fromFragment('microblog',array('tag','user')));
     }
 
     /**
@@ -82,6 +83,13 @@ class MicroBlogAdd extends Controller {
      *    @created    2011-06-28
      */
     public function process() {
+        
+        //过滤话题的正则表达式
+        $tag_pattern = "/\#([^\#|.]+)\#/";
+
+        //过滤@用户的正则表达式
+        $user_pattern = "/\@([a-zA-z0-9_]+)/";
+        
         //判断表单是否提交
         if ($this->defaultView->isSubmit($this->aParams)) {
             
@@ -102,12 +110,25 @@ class MicroBlogAdd extends Controller {
 
                 //客户端
                 $this->defaultView->model()->setData('client', 'web');
-
+                
+                //过滤标签
+                preg_match_all($tag_pattern, $this->defaultView->model()->data('text'), $tagsarr);
+                //判断标签个数
+                if(count($tagsarr[1])>1){
+                    //遍历标签
+                    for($i=0;$i<count($tagsarr[1]);$i++){
+                        
+                        $this->defaultView->model()->child('tag')->buildChild($tagsarr[1][$i],"tag");
+                    }
+                }else{
+                    $this->defaultView->model()->child('tag')->buildChild($tagsarr[1],"tag");                    
+                }
+                
                 try {
                     
                     //保存数据
                     $this->defaultView->model()->save();
-                    
+                    //echo "<pre>".print_r(DB::singleton()->executeLog())."</pre>";
                     //创建提示消息                    
                     Relocater::locate("/?c=MicroBlogList", "发布成功！");                    
                     
