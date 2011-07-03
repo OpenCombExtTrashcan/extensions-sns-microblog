@@ -17,7 +17,7 @@ namespace oc\ext\microblog;
 use jc\mvc\controller\Controller;               //控制器类
 use oc\base\FrontFrame;                         //视图框架类
 use jc\mvc\model\db\orm\ModelAssociationMap;    //模型关系类
-use jc\mvc\model\db\Model;                      //模型类
+use oc\mvc\model\db\Model;                      //模型类
 use jc\mvc\controller\Relocater;                //回调类
 
 /**

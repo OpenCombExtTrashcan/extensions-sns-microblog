@@ -51,19 +51,19 @@ class MicroBlog extends Extension {
                             'prop' => 'userto', //属性名
                             'fromk' => 'uid', //主键
                             'tok' => 'uid', //外键
-                            'model' => 'user'  //模型名称
+                            'model' => 'coreuser:user'  //模型名称
                         ),
                     ), 
                     'hasAndBelongsToMany' => array(
                         //与user关系
                         array(
-                            'prop' => 'user', //属性名
+                            'prop' => 'coreuser:user', //属性名
                             'fromk' => 'mbid', //主键
                             'tok' => 'mbid', //外键
                             'bfromk' => 'uid', //从主键
                             'btok' => 'at_uid', //从外键
                             'bridge' => 'at', //从模型名称
-                            'model' => 'user', //模型名称
+                            'model' => 'coreuser:user', //模型名称
                         ),
                         //与tag关系
                         array(

@@ -16,7 +16,7 @@ namespace oc\ext\microblog;
 //调用共通类
 use jc\mvc\controller\Controller;               //控制器类
 use oc\base\FrontFrame;                         //视图框架类
-use jc\mvc\model\db\Model;                      //模型类
+use oc\mvc\model\db\Model;                      //模型类
 use jc\mvc\view\widget\Text;                    //文本组件类
 use jc\mvc\model\db\orm\ModelAssociationMap;    //模型关系类
 use jc\message\Message;                        //消息类
@@ -71,7 +71,7 @@ class MicroBlogAdd extends Controller {
          */
 
         //设定模型
-        $this->defaultView->setModel(Model::fromFragment('microblog',array('tag','user')));
+        $this->defaultView->setModel(Model::fromFragment('microblog',array('tag','coreuser:user')));
     }
 
     /**
