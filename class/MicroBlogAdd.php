@@ -146,7 +146,7 @@ class MicroBlogAdd extends Controller {
                     $this->defaultView->model()->save();
                     //echo "<pre>".print_r(DB::singleton()->executeLog())."</pre>";
                     //创建提示消息                    
-                    Relocater::locate("/?c=MicroBlogList", "发布成功！");
+                    Relocater::locate("/?c=microblog.MicroBlogList", "发布成功！");
                 } catch (ExecuteException $e) {
                     throw $e;
                 }

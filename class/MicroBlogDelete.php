@@ -60,7 +60,7 @@ class MicroBlogDelete extends Controller {
         $this->model->load($this->aParams->get("id"), "mbid");
         $this->model->delete();
 
-        Relocater::locate("/?c=MicroBlogList", "删除成功");
+        Relocater::locate("/?c=microblog.MicroBlogList", "删除成功");
     }
 
 }

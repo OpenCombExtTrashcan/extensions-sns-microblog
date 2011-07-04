@@ -10,7 +10,7 @@ if( $__ui_msgqueue->count() ){
 } ?>
 
 <?php if( !($aVariables->get('theView') instanceof \jc\mvc\view\FormView) or $aVariables->get('theView')->isShowForm() ) { ?>
-<form action="/?c=MicroBlogAdd" method="post">
+<form action="/?c=microblog.MicroBlogAdd" method="post">
     <div>       
 		<?php $_aWidget = $aVariables->get('theView')->widget("text") ;
 if($_aWidget){
