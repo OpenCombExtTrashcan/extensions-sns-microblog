@@ -46,7 +46,14 @@ class MicroBlogTagList extends Controller {
      *    @created    2011-07-04
      */
     protected function init() {
+        // 加载视图框架
+        $this->add(new FrontFrame());
+
+        //创建默认视图
+        $this->createView("defaultView", "MicroBlogTagList.html", true);
         
+        //设定模型
+        $this->defaultView->setModel(Model::fromFragment('mb_tag', array(), true));
     }
     
     /**
@@ -58,7 +65,7 @@ class MicroBlogTagList extends Controller {
      *    @created    2011-07-04
      */
     public function process() {
-        
+        $this->defaultView->model()->load();
     }
 }
 ?>
