@@ -65,6 +65,8 @@ class MicroBlogTagList extends Controller {
      *    @created    2011-07-04
      */
     public function process() {
+        
+        //载入数据
         $this->defaultView->model()->load();
     }
 }
