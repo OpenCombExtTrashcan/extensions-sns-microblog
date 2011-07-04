@@ -44,7 +44,7 @@ class MicroBlogDelete extends Controller {
         $this->add(new FrontFrame());
 
         //设定模型
-        $this->model=Model::fromFragment('microblog');
+        $this->model=Model::fromFragment('microblog', array('tag', 'coreuser:user'));
     }
 
     /**

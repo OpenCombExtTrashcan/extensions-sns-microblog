@@ -59,9 +59,9 @@ class MicroBlog extends Extension {
                         array(
                             'prop' => 'coreuser:user', //属性名
                             'fromk' => 'mbid', //主键
-                            'tok' => 'mbid', //外键
-                            'bfromk' => 'uid', //从主键
-                            'btok' => 'at_uid', //从外键
+                            'btok' => 'mbid', //外键
+                            'bfromk' => 'at_uid', //从主键
+                            'tok' => 'uid', //从外键
                             'bridge' => 'at', //从模型名称
                             'model' => 'coreuser:user', //模型名称
                         ),
@@ -69,9 +69,9 @@ class MicroBlog extends Extension {
                         array(
                             'prop' => 'tag', //属性名
                             'fromk' => 'mbid', //主键
-                            'tok' => 'mbid', //外键
+                            'btok' => 'mbid', //外键
                             'bfromk' => 'mbtid', //从主键
-                            'btok' => 'mbtid', //从外键
+                            'tok' => 'mbtid', //从外键
                             'bridge' => 'mb_link', //从模型名称
                             'model' => 'mb_tag', //模型名称
                         )
@@ -90,9 +90,9 @@ class MicroBlog extends Extension {
                         array(
                             'prop' => 'microblog', //属性名
                             'fromk' => 'mbtid', //主键
-                            'tok' => 'mbtid', //外键
+                            'btok' => 'mbtid', //外键
                             'bfromk' => 'mbid', //从主键
-                            'btok' => 'mbid', //从外键
+                            'tok' => 'mbid', //从外键
                             'bridge' => 'mb_link', //从模型名称
                             'model' => 'microblog', //模型名称
                         )
