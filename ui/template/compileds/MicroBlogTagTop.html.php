@@ -8,9 +8,8 @@ return \$__uivar_theModel->childIterator();");
 						 $aVariables->set("row",$__foreach_item_var1 ); ?>
 	
 			<?php echo eval("if(!isset(\$__uivar_row)){ \$__uivar_row=&\$aVariables->getRef('row') ;};
-return \$__uivar_row->data('text');") ;?>  <a href="?c=microblog.MicroBlogDelete&id=<?php echo eval("if(!isset(\$__uivar_row)){ \$__uivar_row=&\$aVariables->getRef('row') ;};
-return \$__uivar_row->data('mbid');") ;?>">删除</a>   <a href="?c=microblog.MicroBlogForward&id=<?php echo eval("if(!isset(\$__uivar_row)){ \$__uivar_row=&\$aVariables->getRef('row') ;};
-return \$__uivar_row->data('mbid');") ;?>">转发</a><br />
+return \$__uivar_row->data('tag');") ;?>  (<?php echo eval("if(!isset(\$__uivar_row)){ \$__uivar_row=&\$aVariables->getRef('row') ;};
+return \$__uivar_row->data('topnum');") ;?>) <br />
 			
 <?php 
 					}

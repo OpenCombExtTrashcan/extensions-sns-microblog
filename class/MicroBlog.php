@@ -134,6 +134,9 @@ class MicroBlog extends Extension {
         
         //加载微博标签热度云梯（排名）制器
         $this->application()->accessRouter()->addController("oc\\ext\\microblog\\MicroBlogTagTop",'MicroBlogTagTop');
+        
+        //加载微博转发制器
+        $this->application()->accessRouter()->addController("oc\\ext\\microblog\\MicroBlogForward",'MicroBlogForward');
     }
 
 }

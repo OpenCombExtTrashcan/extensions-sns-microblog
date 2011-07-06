@@ -1,0 +1,9 @@
+{* 显示 当前视图 的消息队列 }
+<msgqueue for="$theView" />
+<form action="/?c=microblog.MicroBlogForward" method="post">
+    <div>       
+		<widget id="text"/>       
+	</div>   
+    <input type="hidden" name="forward" value="{= $theRequest->get('id') }" />
+    <input type="submit" value="转发" />
+</form>
