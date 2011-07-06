@@ -19,6 +19,7 @@ use oc\base\FrontFrame;                         //视图框架类
 use jc\mvc\model\db\orm\ModelAssociationMap;    //模型关系类
 use oc\mvc\model\db\Model;                      //模型类
 use jc\mvc\controller\Relocater;                //回调类
+use jc\auth\IdManager;                          //用户SESSION类
 
 /**
  *   微博删除类
@@ -50,7 +51,7 @@ class MicroBlogDelete extends Controller {
         $this->add(new FrontFrame());
 
         //设定模型
-        $this->model=Model::fromFragment('microblog', array('tag', 'coreuser:user'));
+        $this->model=new MicroBlogModel();
     }
 
     /**

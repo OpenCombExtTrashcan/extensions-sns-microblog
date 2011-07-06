@@ -65,22 +65,19 @@ class MicroBlogAdd extends Controller {
                 ->add(Length::flyweight(0, 140), "长度不能超过140个字")
                 ->add(NotEmpty::singleton(), "必须输入");
 
-        /*
-          // 为视图创建、添加images文本组件
-          $this->defaultView->addWidget( new Text("images","图片"), 'images' );
+        
+        // 为视图创建、添加images文本组件
+        $this->defaultView->addWidget( new Text("image","图片"), 'image' );
 
-          // 为视图创建、添加videos文本组件
-          $this->defaultView->addWidget( new Text("videos","图片"), 'videos' );
+        // 为视图创建、添加videos文本组件
+        $this->defaultView->addWidget( new Text("video","视频"), 'video' );
 
-          // 为视图创建、添加musics文本组件
-          $this->defaultView->addWidget( new Text("musics","图片"), 'musics' );
-         * 
-         */
+        // 为视图创建、添加musics文本组件
+        $this->defaultView->addWidget( new Text("music","音乐"), 'music' );
+         
 
         //设定模型
-        $this->defaultView->setModel(
-        		$this->createModel('microblog',array('tag','coreuser:user'))
-        );
+        $this->defaultView->setModel(new MicroBlogModel());
     }
 
     /**

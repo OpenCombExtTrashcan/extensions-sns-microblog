@@ -53,7 +53,7 @@ class MicroBlogTagList extends Controller {
         $this->createView("defaultView", "MicroBlogTagList.html", true);
         
         //设定模型
-        $this->defaultView->setModel(Model::fromFragment('mb_tag', array(), true));
+        $this->defaultView->setModel(Model::fromFragment('mb_tag', array(), true));        
     }
     
     /**

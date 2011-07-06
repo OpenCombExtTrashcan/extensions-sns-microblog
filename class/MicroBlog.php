@@ -100,6 +100,28 @@ class MicroBlog extends Extension {
                 )
         );        
         
+        //link模型关系
+        $aAssocMap->addOrm(
+        		array(
+        			'keys' => 'lid',
+        			'table' => 'mb_link',
+        			
+        			'belongsTo' => array(
+        				array(
+        					'prop' => 'microblog' ,	//属性名
+                			'fromk' => 'mbid' ,		//主键
+                			'tok' => 'mbid' ,		//外键
+                			'model' => 'microblog'	//模型名称
+        				),
+        				array(
+                			'prop' => 'mb_tag' ,	//属性名
+                        	'fromk' => 'mbtid' ,	//主键
+                        	'tok' => 'mbtid' ,		//外键
+                        	'model' => 'mb_tag'		//模型名称
+        				)
+        			),
+        		)
+    	);
         
         //加载微博列表控制器
         $this->application()->accessRouter()->addController("oc\\ext\\microblog\\MicroBlogList",'MicroBlogList');
@@ -110,8 +132,8 @@ class MicroBlog extends Extension {
         //加载微博删除控制器
         $this->application()->accessRouter()->addController("oc\\ext\\microblog\\MicroBlogDelete",'MicroBlogDelete');
         
-        //加载微博标签列表控制器
-        $this->application()->accessRouter()->addController("oc\\ext\\microblog\\MicroBlogTagList",'MicroBlogTagList');
+        //加载微博标签热度云梯（排名）制器
+        $this->application()->accessRouter()->addController("oc\\ext\\microblog\\MicroBlogTagTop",'MicroBlogTagTop');
     }
 
 }

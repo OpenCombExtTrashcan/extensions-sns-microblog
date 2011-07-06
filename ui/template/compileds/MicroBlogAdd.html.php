@@ -20,6 +20,34 @@ if($_aWidget){
 } ?>
        
 	</div>
+     
+    <div>       
+		图　片：<?php $_aWidget = $aVariables->get('theView')->widget("image") ;
+if($_aWidget){
+	$_aWidget->display($this,null,$aDevice) ;
+}else{
+	echo '缺少 widget (id:'."image".')' ;
+} ?>
+		
+	</div>
+    <div>       
+		视　频：<?php $_aWidget = $aVariables->get('theView')->widget("video") ;
+if($_aWidget){
+	$_aWidget->display($this,null,$aDevice) ;
+}else{
+	echo '缺少 widget (id:'."video".')' ;
+} ?>
+		
+	</div>
+    <div>       
+		音　乐：<?php $_aWidget = $aVariables->get('theView')->widget("music") ;
+if($_aWidget){
+	$_aWidget->display($this,null,$aDevice) ;
+}else{
+	echo '缺少 widget (id:'."music".')' ;
+} ?>
+		
+	</div>
     
     <input type="submit" value="发布" />
 <input type="hidden" name="<?php echo $aVariables->get('theView')->htmlFormSignature()?>" value="1" /></form><?php } ?>
