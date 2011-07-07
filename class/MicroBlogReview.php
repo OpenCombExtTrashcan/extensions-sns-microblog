@@ -84,8 +84,19 @@ class MicroBlogReview extends Controller {
 	public function process() {
 		
 		//转入评论数据
-		$this->listView->model()->load($this->aParams->get("id"),'mbid');		
-		
+		$this->listView->model()->load($this->aParams->get("id"),'mbid');
+		//$this->listView->model()->printStruct() ;
+		if($this->aParams->get("rid")!=''){
+			foreach ($this->listView->model()->childIterator() as $row){
+				if($row['rid']==$this->aParams->get("rid")){
+					$username=$row->child('user')->data('username');
+				}
+			
+			}
+			$this->formView->model()->setData('text', "回复@".$username.": ");
+			//将视图组件的数据与模型交换
+			$this->formView->exchangeData(DataExchanger::MODEL_TO_WIDGET) ;
+		}
 		//判断表单是否提交
         if ($this->formView->isSubmit($this->aParams)) {
 			
@@ -104,8 +115,12 @@ class MicroBlogReview extends Controller {
                 //用户ID（IdManager::fromSession()->currentId()->userId() 取得用户ID）
                 $this->formView->model()->setData('at_uid', IdManager::fromSession()->currentId()->userId());
 				
-                //发布时间
-                $this->formView->model()->setData('reply', '0');
+                //回复状态
+                if($this->aParams->get("rid")!=''){
+                	$this->formView->model()->setData('reply', $this->aParams->get("rid"));
+                }else{
+                	$this->formView->model()->setData('reply', '0');
+                }
                 
                 //发布时间
                 $this->formView->model()->setData('time', time());
