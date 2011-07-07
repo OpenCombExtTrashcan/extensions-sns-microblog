@@ -3,7 +3,11 @@
 <form action="/?c=microblog.MicroBlogForward" method="post">
     <div>       
 		<widget id="text"/>       
-	</div>   
+	</div> 
+	<if "$forward=='0'">  
     <input type="hidden" name="forward" value="{= $theRequest->get('id') }" />
+    <else/>
+    <input type="hidden" name="forward" value="{= $forward }" />
+    </if>
     <input type="submit" value="转发" />
 </form>

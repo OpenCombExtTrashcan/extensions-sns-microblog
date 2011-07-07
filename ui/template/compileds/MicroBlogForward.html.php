@@ -19,8 +19,16 @@ if($_aWidget){
 	echo '缺少 widget (id:'."text".')' ;
 } ?>
        
-	</div>   
+	</div> 
+	<?php if(eval("if(!isset(\$__uivar_forward)){ \$__uivar_forward=&\$aVariables->getRef('forward') ;};
+return \$__uivar_forward=='0';")){ ?>  
     <input type="hidden" name="forward" value="<?php echo eval("if(!isset(\$__uivar_theRequest)){ \$__uivar_theRequest=&\$aVariables->getRef('theRequest') ;};
 return \$__uivar_theRequest->get('id');") ;?>" />
+    <?php
+					}else{
+					?>
+    <input type="hidden" name="forward" value="<?php echo eval("if(!isset(\$__uivar_forward)){ \$__uivar_forward=&\$aVariables->getRef('forward') ;};
+return \$__uivar_forward;") ;?>" />
+    <?php } ?>
     <input type="submit" value="转发" />
 <input type="hidden" name="<?php echo $aVariables->get('theView')->htmlFormSignature()?>" value="1" /></form><?php } ?>

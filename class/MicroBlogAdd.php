@@ -138,10 +138,10 @@ class MicroBlogAdd extends Controller {
                     //遍历标签
                     for ($i = 0; $i < count($usersarr[1]); $i++) {
                         //加载用户数据
-                        $this->defaultView->model()->child('coreuser:user')->loadChild($usersarr[1][$i], "username");                        
+                        $this->defaultView->model()->child('at')->loadChild($usersarr[1][$i], "username");                        
                     }
                 } elseif (count($usersarr[1]) > 0)  {
-                    $this->defaultView->model()->child('coreuser:user')->loadChild($usersarr[1], "username");                    
+                    $this->defaultView->model()->child('at')->loadChild($usersarr[1], "username");                    
                 }
 
                 try {

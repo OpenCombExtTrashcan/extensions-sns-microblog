@@ -1,0 +1,5 @@
+<foreach for="$theModel->childIterator()" item="row">					
+			{= $row->child('user')->data('username') }:{= $row->child('microblog')->data('text') }  <a href="?c=microblog.MicroBlogReview&id={= $row->data('at_uid') }">回复</a><br/>
+			
+			
+</foreach>

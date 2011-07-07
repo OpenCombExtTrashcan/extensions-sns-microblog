@@ -57,15 +57,17 @@ class MicroBlogForward extends Controller {
 		$this->add(new FrontFrame());
 	
 		//创建默认视图
-		$this->createView("defaultView", "MicroBlogForward.html", true);
-	
+		$this->createView("defaultView", "MicroBlogForward.html", true);				
+		
 		//为视图创建、添加textarea文本组件(Text::multiple 复文本) （Text::single 标准文本）
 		$this->defaultView->addWidget(new Text("text", "内容", "", Text::multiple), 'text')
-		->dataVerifiers()
-		->add(Length::flyweight(0, 140), "长度不能超过140个字");			
-	
+			->dataVerifiers()
+			->add(Length::flyweight(0, 140), "长度不能超过140个字");
+		
+		
 		//设定模型
-		$this->defaultView->setModel(new MicroBlogModel());
+		$this->defaultView->setModel(new MicroBlogModel());	
+		
 	}
 	
 	/**
@@ -77,6 +79,39 @@ class MicroBlogForward extends Controller {
 	 *    @created    2011-06-28
 	 */
 	public function process() {		
+		
+		$this->defaultView->model()->load($this->aParams->get("id"),'mbid');
+		
+		
+		//var_dump($this->defaultView->model());
+		//转发判断
+		$forward = $this->defaultView->model()->data('forward');
+		$uid = $this->defaultView->model()->data('uid');
+		$ftext = $this->defaultView->model()->data('text');
+		//转发过
+		if($forward!=0){
+			//取得用户名
+			$this->defaultView->model()->child('at')->loadChild($uid, "uid");			
+			$child = $this->defaultView->model()->child('at');			
+			foreach ($child->childIterator() as $row){				
+				if($row['uid']==$uid){
+					$username = $row["username"];
+				}
+				
+			}
+					
+			$this->defaultView->model()->setData('text', " //@".$username.":".$ftext);				
+			$this->defaultView->variables()->set('forward',$forward);
+			//将视图组件的数据与模型交换
+			$this->defaultView->exchangeData(DataExchanger::MODEL_TO_WIDGET) ;
+		}else{		
+			$this->defaultView->variables()->set('forward',0);
+		}
+		//插入false 更新true
+		$this->defaultView->model()->setSerialized(false) ;
+		//清除主键
+		$this->defaultView->model()->setData('mbid',null) ;
+		
 		
 		//过滤话题的正则表达式
 		$tag_pattern = "/\#([^\#|.]+)\#/";
@@ -136,10 +171,10 @@ class MicroBlogForward extends Controller {
 					//遍历标签
 					for ($i = 0; $i < count($usersarr[1]); $i++) {
 						//加载用户数据
-						$this->defaultView->model()->child('coreuser:user')->loadChild($usersarr[1][$i], "username");
+						$this->defaultView->model()->child('at')->loadChild($usersarr[1][$i], "username");
 					}
 				} elseif (count($usersarr[1]) > 0)  {
-					$this->defaultView->model()->child('coreuser:user')->loadChild($usersarr[1], "username");
+					$this->defaultView->model()->child('at')->loadChild($usersarr[1], "username");
 				}
 	
 				try {

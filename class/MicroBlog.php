@@ -45,6 +45,15 @@ class MicroBlog extends Extension {
                     'keys' => 'mbid', //主键
                     'table' => 'microblog', //模型名称                                    
                     
+			        'hasOne' => array(
+				        //转发内联关系
+				        array(
+                             'prop' => 'forward', //属性名
+                             'fromk' => 'forward', //主键
+                             'tok' => 'mbid', //外键
+                             'model' => 'microblog'  //模型名称
+			        	),
+			        ),
                     'belongsTo' => array(
                         //与user关系
                         array(
@@ -57,7 +66,7 @@ class MicroBlog extends Extension {
                     'hasAndBelongsToMany' => array(
                         //与user关系
                         array(
-                            'prop' => 'coreuser:user', //属性名
+                            'prop' => 'at', //属性名
                             'fromk' => 'mbid', //主键
                             'btok' => 'mbid', //外键
                             'bfromk' => 'at_uid', //从主键
@@ -74,7 +83,18 @@ class MicroBlog extends Extension {
                             'tok' => 'mbtid', //从外键
                             'bridge' => 'mb_link', //从模型名称
                             'model' => 'mb_tag', //模型名称
-                        )
+                        ),
+				        //与tag关系
+				        array(
+                             'prop' => 'tag', //属性名
+                             'fromk' => 'mbid', //主键
+                             'btok' => 'mbid', //外键
+                             'bfromk' => 'mbtid', //从主键
+                             'tok' => 'mbtid', //从外键
+                             'bridge' => 'mb_link', //从模型名称
+                             'model' => 'mb_tag', //模型名称
+        				)
+                        
                     ),
                 )
         );
@@ -123,6 +143,29 @@ class MicroBlog extends Extension {
         		)
     	);
         
+        //at模型关系
+        $aAssocMap->addOrm(
+        		array(
+        			'keys' => 'aid',
+        			'table' => 'at',
+
+        			'belongsTo' => array(
+        				array(
+        					'prop' => 'microblog' ,	//属性名
+                			'fromk' => 'mbid' ,		//主键
+                			'tok' => 'mbid' ,		//外键
+                			'model' => 'microblog'	//模型名称        					
+        				),
+        				array(
+        					'prop' => 'user' ,	//属性名
+                        	'fromk' => 'at_uid' ,		//主键
+                        	'tok' => 'uid' ,		//外键
+                        	'model' => 'coreuser:user'	//模型名称          					
+        				)
+        			)
+        		)
+        );
+        
         //加载微博列表控制器
         $this->application()->accessRouter()->addController("oc\\ext\\microblog\\MicroBlogList",'MicroBlogList');
         
@@ -140,6 +183,12 @@ class MicroBlog extends Extension {
         
         //加载微博转发制器
         $this->application()->accessRouter()->addController("oc\\ext\\microblog\\MicroBlogForward",'MicroBlogForward');
+        
+        //加载微博@提到我的制器
+        $this->application()->accessRouter()->addController("oc\\ext\\microblog\\MicroBlogAt",'MicroBlogAt');
+        
+        //加载微博评论制器
+        $this->application()->accessRouter()->addController("oc\\ext\\microblog\\MicroBlogReview",'MicroBlogReview');
     }
 
 }

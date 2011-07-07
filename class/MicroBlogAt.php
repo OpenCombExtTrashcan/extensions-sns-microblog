@@ -24,11 +24,11 @@ use jc\auth\IdManager;                          //用户SESSION类
  *   微博列表类
  *   @package    microblog
  *   @author     luwei
- *   @created    2011-06-29
+ *   @created    2011-07-07
  *   @history     
  */
 
-class MicroBlogList extends Controller {
+class MicroBlogAt extends Controller {
 
     /**
      *    初始化方法
@@ -36,7 +36,7 @@ class MicroBlogList extends Controller {
      *    @package    microblog 
      *    @return     null
      *    @author     luwei
-     *    @created    2011-06-29
+     *    @created    2011-07-07
      */
     protected function init() {
 
@@ -44,10 +44,10 @@ class MicroBlogList extends Controller {
         $this->add(new FrontFrame());
 
         //创建默认视图
-        $this->createView("defaultView", "MicroBlogList.html", true);
+        $this->createView("defaultView", "MicroBlogAt.html", true);
 
         //设定模型
-        $this->defaultView->setModel(Model::fromFragment('microblog', array('userto'), true));
+        $this->defaultView->setModel(Model::fromFragment('at', array('microblog'=>array('forward'),'user'), true));
     }
 
     /**
@@ -56,7 +56,7 @@ class MicroBlogList extends Controller {
      *    @package    microblog 
      *    @return     null
      *    @author     luwei
-     *    @created    2011-06-29
+     *    @created    2011-07-07
      */
     public function process() {
         
@@ -86,17 +86,17 @@ class MicroBlogList extends Controller {
         
         //载入当前用户的所有微博
         $userList = IdManager::fromSession();
-        $this->defaultView->model()->load($userList->currentId()->userId(), "uid");    
+        $this->defaultView->model()->load($userList->currentId()->userId(), "at_uid");    
             
         //显示数据结构
-        //$this->defaultView->model()->printStruct() ;
+        $this->defaultView->model()->printStruct() ;
         
         //过滤话题和对象名       
         foreach ($this->defaultView->model()->childIterator() as $row){        	
-            $text = $row->data("text");
+            $text = $row->child('microblog')->data("text");
             $text = preg_replace($user_pattern, '<a href=/${1}>@${1}</a>', $text); 
             $text = preg_replace($tag_pattern, '<a href="/k/${1}">#${1}#</a>', $text);
-            $row->setData("text",$text);            
+            $row->child('microblog')->setData("text",$text);            
 		}
     }
 
