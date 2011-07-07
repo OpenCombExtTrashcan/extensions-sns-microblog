@@ -64,7 +64,7 @@ class MicroBlog extends Extension {
                         ),
                     ), 
                     'hasAndBelongsToMany' => array(
-                        //与user关系
+                        //与at关系
                         array(
                             'prop' => 'at', //属性名
                             'fromk' => 'mbid', //主键
