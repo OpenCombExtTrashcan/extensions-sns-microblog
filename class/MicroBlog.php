@@ -133,6 +133,9 @@ class MicroBlog extends Extension {
         $this->application()->accessRouter()->addController("oc\\ext\\microblog\\MicroBlogDelete",'MicroBlogDelete');
         
         //加载微博标签热度云梯（排名）制器
+        $this->application()->accessRouter()->addController("oc\\ext\\microblog\\MicroBlogTagList",'MicroBlogTagList');
+        
+        //加载微博标签列表(聚合)制器
         $this->application()->accessRouter()->addController("oc\\ext\\microblog\\MicroBlogTagTop",'MicroBlogTagTop');
         
         //加载微博转发制器
