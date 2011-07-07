@@ -6,6 +6,7 @@
 	</div> 
 	<if "$forward=='0'">  
     <input type="hidden" name="forward" value="{= $theRequest->get('id') }" />
+    {* 单标记标签需要以“/”结束 }
     <else/>
     <input type="hidden" name="forward" value="{= $forward }" />
     </if>
