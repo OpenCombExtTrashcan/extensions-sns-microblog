@@ -21,7 +21,7 @@ use oc\mvc\model\db\Model;                      //模型类
 use jc\auth\IdManager;                          //用户SESSION类
 
 /**
- *   微博列表类
+ *   微博@提到我的类
  *   @package    microblog
  *   @author     luwei
  *   @created    2011-07-07
@@ -47,7 +47,7 @@ class MicroBlogAt extends Controller {
         $this->createView("defaultView", "MicroBlogAt.html", true);
 
         //设定模型
-        $this->defaultView->setModel(Model::fromFragment('at', array('microblog'=>array('forward'),'user'), true));
+        $this->defaultView->setModel(Model::fromFragment('at', array('microblog'=>array('forward'=>array('userto')),'user'), true));
     }
 
     /**

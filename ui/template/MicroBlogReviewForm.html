@@ -1,0 +1,16 @@
+{* 显示 当前视图 的消息队列 }
+<msgqueue for="$theView" />
+<form action="/?c=microblog.MicroBlogReview" method="post">
+    <div>       
+		<widget id="text"/>       
+	</div>
+	<input type="hidden" name="mbid" value="{= $theRequest->get('id') }" /> 
+	<if "$theRequest->get('rid')!=''">
+	<input type="hidden" name="rid" value="{= $theRequest->get('rid') }" /> 
+	</if>   
+    <input type="submit" value="评论" />
+</form>
+
+
+<views />
+
