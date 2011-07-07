@@ -85,10 +85,13 @@ class MicroBlogReview extends Controller {
 		
 		//转入评论数据
 		$this->listView->model()->load($this->aParams->get("id"),'mbid');
-		//$this->listView->model()->printStruct() ;
+		
+		//回复评论
 		if($this->aParams->get("rid")!=''){
+			//遍历获取要回复的评论
 			foreach ($this->listView->model()->childIterator() as $row){
 				if($row['rid']==$this->aParams->get("rid")){
+					//获取用户名
 					$username=$row->child('user')->data('username');
 				}
 			
