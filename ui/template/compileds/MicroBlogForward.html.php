@@ -24,6 +24,7 @@ if($_aWidget){
 return \$__uivar_forward=='0';")){ ?>  
     <input type="hidden" name="forward" value="<?php echo eval("if(!isset(\$__uivar_theRequest)){ \$__uivar_theRequest=&\$aVariables->getRef('theRequest') ;};
 return \$__uivar_theRequest->get('id');") ;?>" />
+    
     <?php
 					}else{
 					?>
