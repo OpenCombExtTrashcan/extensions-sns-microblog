@@ -180,6 +180,39 @@ class MicroBlog extends Extension {
 		        	)
 	        	)
         );
+        
+        //mood模型关系
+        $aAssocMap->addOrm(
+        		array(
+        			'keys' => 'mid',
+        			'table' => 'mood',
+        			
+        			'hasMany'=>array(
+        				array(
+        					'prop' => 'type',
+        					'fromk' => 'type',
+        					'tok' => 'type',
+        					'model' => 'mood'
+        				),
+        				array(
+        					'prop' => 'date',
+        					'fromk' => 'update',
+        					'tok' => 'update',
+        					'model' => 'mood'
+        				)
+        			),
+        			
+        			'belongsTo'=>array(
+        				array(
+        					'prop' => 'user',
+        					'fromk' => 'uid',
+        					'tok' => 'uid',
+        					'model' => 'coreuse:user'
+        				)
+        			)
+        		)
+        );
+        
         //加载微博列表控制器
         $this->application()->accessRouter()->addController("oc\\ext\\microblog\\MicroBlogList",'MicroBlogList');
         
@@ -189,20 +222,23 @@ class MicroBlog extends Extension {
         //加载微博删除控制器
         $this->application()->accessRouter()->addController("oc\\ext\\microblog\\MicroBlogDelete",'MicroBlogDelete');
         
-        //加载微博标签热度云梯（排名）制器
+        //加载微博标签热度云梯（排名）控制器
         $this->application()->accessRouter()->addController("oc\\ext\\microblog\\MicroBlogTagList",'MicroBlogTagList');
         
-        //加载微博标签列表(聚合)制器
+        //加载微博标签列表(聚合)控制器
         $this->application()->accessRouter()->addController("oc\\ext\\microblog\\MicroBlogTagTop",'MicroBlogTagTop');
         
-        //加载微博转发制器
+        //加载微博转发控制器
         $this->application()->accessRouter()->addController("oc\\ext\\microblog\\MicroBlogForward",'MicroBlogForward');
         
-        //加载微博@提到我的制器
+        //加载微博@提到我的控制器
         $this->application()->accessRouter()->addController("oc\\ext\\microblog\\MicroBlogAt",'MicroBlogAt');
         
         //加载微博评论制器
         $this->application()->accessRouter()->addController("oc\\ext\\microblog\\MicroBlogReview",'MicroBlogReview');
+        
+        //加载微博相同心情的朋友控制器
+        $this->application()->accessRouter()->addController("oc\\ext\\microblog\\MricoBlogMood",'MricoBlogMood');
     }
 
 }

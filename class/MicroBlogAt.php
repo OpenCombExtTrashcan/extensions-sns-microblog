@@ -89,7 +89,7 @@ class MicroBlogAt extends Controller {
         $this->defaultView->model()->load($userList->currentId()->userId(), "at_uid");    
             
         //显示数据结构
-        //$this->defaultView->model()->printStruct() ;
+        $this->defaultView->model()->printStruct() ;
         
         //过滤话题和对象名       
         foreach ($this->defaultView->model()->childIterator() as $row){        	
