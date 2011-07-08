@@ -36,7 +36,7 @@ use jc\db\DB;                                   //数据库类
  *   @created    2011-07-07
  *   @history
  */
-class MicroBlogReview extends Controller {
+class review extends Controller {
 	
 	/**
 	*    初始化方法
@@ -52,10 +52,10 @@ class MicroBlogReview extends Controller {
 		$this->add(new FrontFrame());
 	
 		//创建默认视图		
-		$this->createView("formView", "MicroBlogReviewForm.html", true);
+		$this->createView("formView", "reviewform.html", true);
 		
 		//子视图创建
-		$this->listView = new View('listView',"MicroBlogReview.html") ;
+		$this->listView = new View('listView',"reviewlist.html") ;
 		
 		
 		//绑定视图
@@ -135,7 +135,7 @@ class MicroBlogReview extends Controller {
                     	//$this->formView->model()->printStruct() ;
 	                    //echo "<pre>".print_r(DB::singleton()->executeLog())."</pre>";
 	                    //创建提示消息                    
-	                    Relocater::locate("/?c=microblog.MicroBlogList", "发布成功！");
+	                    Relocater::locate("/?c=microblog.mlist", "发布成功！");
                     }
                    
                 } catch (ExecuteException $e) {

@@ -21,14 +21,14 @@ use oc\mvc\model\db\Model;                      //模型类
 use jc\auth\IdManager;                          //用户SESSION类
 
 /**
- *   微博@提到我的类
+ *   微博列表类
  *   @package    microblog
  *   @author     luwei
- *   @created    2011-07-07
+ *   @created    2011-06-29
  *   @history     
  */
 
-class MicroBlogAt extends Controller {
+class mlist extends Controller {
 
     /**
      *    初始化方法
@@ -36,7 +36,7 @@ class MicroBlogAt extends Controller {
      *    @package    microblog 
      *    @return     null
      *    @author     luwei
-     *    @created    2011-07-07
+     *    @created    2011-06-29
      */
     protected function init() {
 
@@ -44,10 +44,10 @@ class MicroBlogAt extends Controller {
         $this->add(new FrontFrame());
 
         //创建默认视图
-        $this->createView("defaultView", "MicroBlogAt.html", true);
+        $this->createView("defaultView", "mlist.html", true);
 
         //设定模型
-        $this->defaultView->setModel(Model::fromFragment('at', array('microblog'=>array('forward'=>array('userto')),'user'), true));
+        $this->defaultView->setModel(Model::fromFragment('microblog', array('userto','forward'=>array('userto')), true));
     }
 
     /**
@@ -56,7 +56,7 @@ class MicroBlogAt extends Controller {
      *    @package    microblog 
      *    @return     null
      *    @author     luwei
-     *    @created    2011-07-07
+     *    @created    2011-06-29
      */
     public function process() {
         
@@ -77,7 +77,10 @@ class MicroBlogAt extends Controller {
           echo $post_content;
           ===============================================================================================================================
          */
-
+    	
+    	//过滤表情
+    	$mood_pattern = "/\[([^\[\]|.]+)\]/";
+    	
         //过滤话题的正则表达式
         $tag_pattern = "/\#([^\#|.]+)\#/";
         
@@ -86,17 +89,30 @@ class MicroBlogAt extends Controller {
         
         //载入当前用户的所有微博
         $userList = IdManager::fromSession();
-        $this->defaultView->model()->load($userList->currentId()->userId(), "at_uid");    
-            
+       	if($this->aParams->get('uid')!=""){
+       		$this->defaultView->model()->load($this->aParams->get('uid'), "uid");
+       	}else{
+        	$this->defaultView->model()->load($userList->currentId()->userId(), "uid");    
+       	}
+       	
         //显示数据结构
         $this->defaultView->model()->printStruct() ;
         
         //过滤话题和对象名       
         foreach ($this->defaultView->model()->childIterator() as $row){        	
-            $text = $row->child('microblog')->data("text");
+            $text = $row->data("text");
+            $text = preg_replace($mood_pattern, '<a href=/${0}>${0}</a>', $text);
             $text = preg_replace($user_pattern, '<a href=/${1}>@${1}</a>', $text); 
             $text = preg_replace($tag_pattern, '<a href="/k/${1}">#${1}#</a>', $text);
-            $row->child('microblog')->setData("text",$text);            
+            $row->setData("text",$text);
+            if($row->data('forward')!=0){
+            	$forward = $row->child('forward');
+            	$text = $forward->data("text");
+            	$text = preg_replace($mood_pattern, '<a href=/${0}>${0}</a>', $text);
+            	$text = preg_replace($user_pattern, '<a href=/${1}>@${1}</a>', $text);
+            	$text = preg_replace($tag_pattern, '<a href="/k/${1}">#${1}#</a>', $text);
+            	$forward->setData("text",$text);
+            }            
 		}
     }
 

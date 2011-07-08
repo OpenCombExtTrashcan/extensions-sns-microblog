@@ -37,7 +37,7 @@ use jc\db\DB;                                   //数据库类
  *   @created    2011-07-08
  *   @history
  */
-class MricoBlogMood extends Controller {
+class mood extends Controller {
 	
 	/**
 	 *    初始化方法
@@ -53,10 +53,10 @@ class MricoBlogMood extends Controller {
 		$this->add(new FrontFrame());
 	
 		//创建默认视图
-		$this->createView("listView", "MicroBlogMoodList.html", true);
+		$this->createView("listView", "moodlist.html", true);
 	
 		//子视图创建
-		$this->formView = new View('formView',"MicroBlogMoodForm.html") ;
+		$this->formView = new View('formView',"moodform.html") ;
 	
 	
 		//绑定视图
@@ -64,9 +64,11 @@ class MricoBlogMood extends Controller {
 		
 		//为视图创建、添加单选按钮组件
 		$this->formView->addWidget ( new RadioGroup('type'), 'type' )
-		->createRadio('好','1',true)
-		->createRadio('坏','2')
-		->createRadio('一般','3') ;
+			->createRadio('好','1',true)
+			->createRadio('坏','2')
+			->createRadio('一般','3') 
+		->dataVerifiers()
+		->add(NotEmpty::singleton(), "必须选择心情");
 		
 		//为视图创建、添加textarea文本组件(Text::multiple 复文本) （Text::single 标准文本）
 		$this->formView->addWidget(new Text("text", "内容", "", Text::multiple), 'text')
@@ -76,7 +78,8 @@ class MricoBlogMood extends Controller {
 	
 		//设定模型
 		$this->formView->setModel(Model::fromFragment('mood'));
-		$this->listView->setModel(Model::fromFragment('mood',array('user','type'=>array('date')),true));
+		$this->listView->setModel(Model::fromFragment('mood',array('user'),true));
+		$this->tmpmodel = Model::fromFragment('mood',array('user'),false);
 	}
 	
 	/**
@@ -89,12 +92,71 @@ class MricoBlogMood extends Controller {
 	 */
 	public function process() {
 	
-		//转入心情数据
+		//转入自己的心情数据
 		$userList = IdManager::fromSession();
-		$this->listView->model()->load(array($userList->currentId()->userId(),date('Y-m-d')),array('uid','update'));
+		$this->tmpmodel->load(array($userList->currentId()->userId(),date('Y-m-d')),array('uid','update'));
+		if($this->tmpmodel->data('mid')){
+			$myMood = array(
+						"mid"=>$this->tmpmodel->data('mid'),
+						"uid"=>$this->tmpmodel->data('uid'),
+						"username"=>$this->tmpmodel->child('user')->data('username'),
+						"type" =>$this->tmpmodel->data('type'),
+						"text" =>$this->tmpmodel->data('text'),
+						"time" =>$this->tmpmodel->data('time'),
+						"update" =>$this->tmpmodel->data('update'),
+					);
+			
+		}else{
+			$myMood = array();
+		}	
 		
-		$this->listView->model()->printStruct() ;		
 		
+		//向页面传送数据
+		$this->listView->variables()->set('myMood',$myMood);
+		$this->formView->variables()->set('myMood',$myMood);
+		
+
+		
+		//$this->tmpmodel->printStruct() ;
+		//转入同心情
+		if(count($myMood)>0){		
+			$this->listView->model()->load(array($myMood['type'],$myMood['update']),array('type','update'));
+		//$this->listView->model()->printStruct() ;
+		}
+		//判断表单是否提交
+		if ($this->formView->isSubmit($this->aParams)) {
+				
+			// 加载 视图组件的数据
+			$this->formView->loadWidgets($this->aParams);
+		
+			// 校验 视图组件的数据
+			if ($this->formView->verifyWidgets()) {
+		
+				//将视图组件的数据与模型交换
+				$this->formView->exchangeData(DataExchanger::WIDGET_TO_MODEL);	
+				
+				//用户ID
+				$this->formView->model()->setData('uid', $userList->currentId()->userId());
+				
+				//发布时间
+				$this->formView->model()->setData('time', time());
+				$this->formView->model()->setData('update', date('Y-m-d'));
+				
+				try {
+					 
+					//保存数据
+					if( $this->formView->model()->save() ){
+						//$this->formView->model()->printStruct() ;
+						//echo "<pre>".print_r(DB::singleton()->executeLog())."</pre>";
+						//创建提示消息
+						Relocater::locate("/?c=microblog.mood", "发布成功！");
+					}
+					 
+				} catch (ExecuteException $e) {
+					throw $e;
+				}
+			}
+		}
 		
 	}
 }

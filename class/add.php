@@ -35,7 +35,7 @@ use jc\db\DB;                                   //数据库类
  *   @history     
  */
 
-class MicroBlogAdd extends Controller {
+class add extends Controller {
 
     /**
      *    初始化方法
@@ -57,7 +57,7 @@ class MicroBlogAdd extends Controller {
         $this->add(new FrontFrame());
 
         //创建默认视图
-        $this->createView("defaultView", "MicroBlogAdd.html", true);
+        $this->createView("defaultView", "add.html", true);
 
         //为视图创建、添加textarea文本组件(Text::multiple 复文本) （Text::single 标准文本）
         $this->defaultView->addWidget(new Text("text", "内容", "", Text::multiple), 'text')
@@ -150,7 +150,7 @@ class MicroBlogAdd extends Controller {
                     $this->defaultView->model()->save();
                     //echo "<pre>".print_r(DB::singleton()->executeLog())."</pre>";
                     //创建提示消息                    
-                    Relocater::locate("/?c=microblog.MicroBlogList", "发布成功！");
+                    Relocater::locate("/?c=microblog.mlist", "发布成功！");
                 } catch (ExecuteException $e) {
                     throw $e;
                 }

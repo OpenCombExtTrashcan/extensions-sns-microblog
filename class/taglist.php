@@ -35,7 +35,7 @@ use jc\db\DB;                                   //数据库类
  *   @history     
  */
 
-class MicroBlogTagList extends Controller {
+class taglist extends Controller {
     
     /**
      *    初始化方法
@@ -50,7 +50,7 @@ class MicroBlogTagList extends Controller {
         $this->add(new FrontFrame());
 
         //创建默认视图
-        $this->createView("defaultView", "MicroBlogTagList.html", true);
+        $this->createView("defaultView", "taglist.html", true);
         
         //设定模型
         $this->defaultView->setModel(Model::fromFragment('mb_tag', array(), true));        

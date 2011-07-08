@@ -29,7 +29,7 @@ use jc\auth\IdManager;                          //用户SESSION类
  *   @history     
  */
 
-class MicroBlogDelete extends Controller {
+class delete extends Controller {
 
     /**
      *    初始化方法
@@ -67,7 +67,7 @@ class MicroBlogDelete extends Controller {
         $this->model->load($this->aParams->get("id"), "mbid");
         $this->model->delete();
 
-        Relocater::locate("/?c=microblog.MicroBlogList", "删除成功");
+        Relocater::locate("/?c=microblog.mlist", "删除成功");
     }
 
 }
