@@ -1,0 +1,18 @@
+{* 显示 当前视图 的消息队列 }
+今日心情<br />
+<msgqueue for="$theView" />
+<form action="/?c=microblog.MicroBlogMood" method="post">	
+	<div>
+		心　情：<widget id="type:1"/> <widget id="type:2"/> <widget id="type:3"/>
+		<msgqueue for="$theView->widget('type')" />
+	</div>
+	<div>       
+		<widget id="text"/>       
+	</div>
+	<input type="hidden" name="mbid" value="{= $theRequest->get('id') }" /> 
+	<if "$theRequest->get('rid')!=''">
+	<input type="hidden" name="rid" value="{= $theRequest->get('rid') }" /> 
+	</if>   
+    <input type="submit" value="评论" />
+</form>
+
