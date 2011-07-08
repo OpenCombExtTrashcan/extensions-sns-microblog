@@ -1,8 +1,0 @@
-<foreach for="$theModel->childIterator()" item="row">					
-			{= $row->child('user')->data('username') }:{= $row->child('microblog')->data('text') }  <a href="?c=microblog.MicroBlogForward&id={= $row->child('microblog')->data('mbid') }">转发</a>    <a href="?c=microblog.MicroBlogReview&id={= $row->child('microblog')->data('mbid') }">评论</a><br/>
-			<if "$row->child('microblog')->data('forward')!=0" >				
-					&nbsp;&nbsp;&nbsp;{= $row->child('microblog')->child('forward')->child('userto')->data('username') }:{= $row->child('microblog')->child('forward')->data('text') }  <a href="?c=microblog.MicroBlogForward&id={= $row->child('microblog')->child('forward')->data('mbid') }">原文转发</a>    <a href="?c=microblog.MicroBlogReview&id={= $row->child('microblog')->child('forward')->data('mbid') }">原文评论</a><br/>
-					
-			</if>
-			
-</foreach>

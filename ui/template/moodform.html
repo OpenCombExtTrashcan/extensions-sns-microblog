@@ -1,7 +1,13 @@
 {* 显示 当前视图 的消息队列 }
+<if "count($myMood)==0">
+今日心情<br />
 <msgqueue for="$theView" />
-<form action="/?c=microblog.MicroBlogReview" method="post">
-    <div>       
+<form action="/?c=microblog.mood" method="post">	
+	<div>
+		心　情：<widget id="type:1"/> <widget id="type:2"/> <widget id="type:3"/>
+		<msgqueue for="$theView->widget('type')" />
+	</div>
+	<div>       
 		<widget id="text"/>       
 	</div>
 	<input type="hidden" name="mbid" value="{= $theRequest->get('id') }" /> 
@@ -10,7 +16,4 @@
 	</if>   
     <input type="submit" value="评论" />
 </form>
-
-{* 单标记标签需要以“/”结束 }
-<views />
-
+</if>

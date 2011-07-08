@@ -1,0 +1,5 @@
+{* 显示 当前视图 的消息队列 }
+<foreach for="$theModel->childIterator()" item="row" idx='idx'>					
+			{= $row->child('user')->data('username') }:{= $row->data('text') }  <a href="?c=microblog.review&id={= $row->data('mbid') }&rid={= $row->data('rid') }">回复</a><br/>
+</foreach>
+
