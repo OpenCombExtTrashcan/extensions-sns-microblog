@@ -2,7 +2,7 @@
 <if "count($myMood)>0" >
 今天心情：{=($myMood['type']=='1')?"好":(($myMood['type']=='2')?"坏":"一般")} <br />
 &nbsp;&nbsp;我:{=$myMood['text']} <br />
-
+相同心情的朋友：<br />
 <foreach for="$theModel->childIterator()" item="row" idx='idx'>	
 	<if "$myMood['mid']!=$row->data('mid')">				
 			&nbsp;&nbsp;&nbsp;&nbsp;{= $row->child('user')->data('username') }:{= $row->data('text') }  <br/>
