@@ -21,7 +21,7 @@ use oc\base\FrontFrame;                         //视图框架类
 use oc\mvc\model\db\Model;                      //模型类
 use jc\mvc\view\widget\Text;                    //文本组件类
 use jc\mvc\view\widget\RadioGroup;				//单选按钮组件类
-use jc\mvc\model\db\orm\ModelAssociationMap;    //模型关系类
+use jc\mvc\model\db\orm\PrototypeAssociationMap;    //模型关系类
 use jc\message\Message;                        //消息类
 use jc\verifier\Length;                         //长度校验类
 use jc\verifier\NotEmpty;                       //非空校验类

@@ -14,7 +14,7 @@
 namespace oc\ext\microblog;
 
 //调用共通类
-use jc\mvc\model\db\orm\ModelAssociationMap;    //
+use jc\mvc\model\db\orm\PrototypeAssociationMap;    //
 use jc\db\DB;                                   //
 use jc\db\PDODriver;                            //
 use oc\ext\Extension;                           //
@@ -38,7 +38,7 @@ class MicroBlog extends Extension {
      */
     public function load() {
         //模型关系实例
-        $aAssocMap = ModelAssociationMap::singleton();
+        $aAssocMap = PrototypeAssociationMap::singleton();
         //microblog模型关系
         $aAssocMap->addOrm(
                 array(

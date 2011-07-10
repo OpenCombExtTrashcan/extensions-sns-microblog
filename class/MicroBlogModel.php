@@ -17,7 +17,7 @@ namespace oc\ext\microblog;
 use jc\db\DB;									//
 use jc\mvc\model\db\orm\operators\Inserter;		//
 use jc\mvc\model\db\orm\operators\Updater;		//
-use jc\mvc\model\db\orm\ModelAssociationMap;	//
+use jc\mvc\model\db\orm\PrototypeAssociationMap;	//
 use oc\mvc\model\db\Model;						//
 
 /**
@@ -40,7 +40,7 @@ class MicroBlogModel extends Model {
 	public function __construct($bAggregarion=false){
 		
 		//
-		parent::__construct(ModelAssociationMap::singleton()->fragment('microblog',array('microblog:tag','microblog:at'), true),$bAggregarion);
+		parent::__construct(PrototypeAssociationMap::singleton()->fragment('microblog',array('microblog:tag','microblog:at'), true),$bAggregarion);
 	}
 	
 	/**
