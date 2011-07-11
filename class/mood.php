@@ -73,7 +73,7 @@ class mood extends Controller {
 		//为视图创建、添加textarea文本组件(Text::multiple 复文本) （Text::single 标准文本）
 		$this->formView->addWidget(new Text("text", "内容", "", Text::multiple), 'text')
 		->dataVerifiers()
-		->add(Length::flyweight(0, 140), "长度不能超过140个字")
+		->add(Length::flyweight(array(0, 140)), "长度不能超过140个字")
 		->add(NotEmpty::singleton(), "必须输入");
 	
 		//设定模型
