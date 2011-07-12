@@ -89,6 +89,9 @@ class add extends Controller {
      *    @created    2011-06-28
      */
     public function process() {
+    	
+    	//过滤表情
+    	$mood_pattern = "/\[([^\[\]|.]+)\]/";
 
         //过滤话题的正则表达式
         $tag_pattern = "/\#([^\#|.]+)\#/";
@@ -129,6 +132,19 @@ class add extends Controller {
                 } elseif (count($tagsarr[1]) > 0)  {
                     $this->defaultView->model()->child('tag')->buildChild($tagsarr[1], "tag");
                 }
+                
+                //过滤表情
+                preg_match_all($mood_pattern, $this->defaultView->model()->data('text'), $moodsarr);
+                //判断表情个数
+                if (count($moodsarr[1]) > 1) {
+                	//遍历表情
+                	for ($i = 0; $i < count($moodsarr[1]); $i++) {
+                		//绑定表情数据
+                		$this->defaultView->model()->child('expression')->buildChild($moodsarr[1][$i], "expression");                		
+                	}
+                } elseif (count($moodsarr[1]) > 0)  {
+                	$this->defaultView->model()->child('expression')->buildChild($moodsarr[1], "expression");                	
+                }
 
                 //过滤用户
                 preg_match_all($user_pattern, $this->defaultView->model()->data('text'), $usersarr);
@@ -149,6 +165,7 @@ class add extends Controller {
                     //保存数据
                     $this->defaultView->model()->save();
                     //echo "<pre>".print_r(DB::singleton()->executeLog())."</pre>";
+                    //$this->defaultView->model()->printStruct() ;
                     //创建提示消息                    
                     Relocater::locate("/?c=microblog.mlist", "发布成功！");
                 } catch (ExecuteException $e) {

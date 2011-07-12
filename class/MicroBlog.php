@@ -83,10 +83,40 @@ class MicroBlog extends Extension {
                             'tok' => 'mbtid', //从外键
                             'bridge' => 'mb_link', //从模型名称
                             'model' => 'mb_tag', //模型名称
-                        )				        
-                        
+                        ),				        
+				        //与expressions关系
+				        array(
+                             'prop' => 'expression', //属性名
+                             'fromk' => 'mbid', //主键
+                             'btok' => 'mbid', //外键
+                             'bfromk' => 'eid', //从主键
+                             'tok' => 'eid', //从外键
+                             'bridge' => 'expression', //从模型名称
+                             'model' => 'expressions', //模型名称
+        				)
                     ),
                 )
+        );
+        
+        //Expression模型关系
+        $aAssocMap->addOrm(
+        		array(
+        			'keys' => 'eid',
+        			'table' => 'expressions',
+        			
+        			'hasAndBelongsToMany' => array(
+                        //与microblog关系
+                        array(
+                            'prop' => 'microblog', //属性名
+                            'fromk' => 'eid', //主键
+                            'btok' => 'eid', //外键
+                            'bfromk' => 'mbid', //从主键
+                            'tok' => 'mbid', //从外键
+                            'bridge' => 'expression', //从模型名称
+                            'model' => 'microblog', //模型名称
+                        )
+					)
+        		)
         );
         
         //tag模型关系
@@ -134,7 +164,7 @@ class MicroBlog extends Extension {
         		)
     	);
         
-        //at模型关系
+        //expression模型关系
         $aAssocMap->addOrm(
         		array(
         			'keys' => 'aid',
@@ -157,6 +187,28 @@ class MicroBlog extends Extension {
         		)
         );        
         
+        //
+        $aAssocMap->addOrm(
+        		array(
+        			'keys' => 'elid',
+        			'table' => 'expression',
+        			
+        			'belongsTo' => array(
+                		array(
+                			'prop' => 'microblog' ,	//属性名
+                        	'fromk' => 'mbid' ,		//主键
+                        	'tok' => 'mbid' ,		//外键
+                        	'model' => 'microblog'	//模型名称    
+    					),
+        				array(
+                			'prop' => 'expressions' ,	//属性名
+                          	'fromk' => 'eid' ,		//主键
+                           	'tok' => 'eid' ,		//外键
+                           	'model' => 'expressions'	//模型名称
+                        )
+                    )
+        		)
+        );
         
         //review模型关系
         $aAssocMap->addOrm(
@@ -224,6 +276,9 @@ class MicroBlog extends Extension {
         
         //加载微博相同心情的朋友控制器
         $this->application()->accessRouter()->addController("oc\\ext\\microblog\\mood",'mood');
+        
+        //加载微博相同心情的朋友控制器
+        $this->application()->accessRouter()->addController("oc\\ext\\microblog\\expression",'expression');
     }
 
 }
