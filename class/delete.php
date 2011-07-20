@@ -47,8 +47,8 @@ class delete extends Controller {
 		    echo "请先登陆";
 		}
 
-        // 加载视图框架
-        $this->add(new FrontFrame());
+        
+        
 
         //设定模型
         $this->model=new MicroBlogModel();

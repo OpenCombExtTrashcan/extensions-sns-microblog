@@ -45,14 +45,14 @@ class tagtop extends Controller {
      *    @created    2011-07-05
      */
     protected function init() {
-        // 加载视图框架
-        $this->add(new FrontFrame());
+        
+        
 
         //创建默认视图
-        $this->createView("defaultView", "tagtop.html", true);
+        $this->createView("tagtop", "tagtop.html", true);
         
         //设定模型
-        $this->defaultView->setModel(Model::fromFragment('mb_tag', array(), true));
+        $this->viewtagtop->setModel(Model::fromFragment('mb_tag', array(), true));
     }
     
     /**
@@ -66,7 +66,7 @@ class tagtop extends Controller {
     public function process() {
     	
     	//载入
-    	$this->defaultView->model()->load();
+    	$this->viewtagtop->model()->load();
     }
 }
 ?>

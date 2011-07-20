@@ -53,20 +53,20 @@ class forward extends Controller {
 			echo "请先登陆";
 		}
 	
-		// 加载视图框架
-		$this->add(new FrontFrame());
+		
+		
 	
 		//创建默认视图
-		$this->createView("defaultView", "forward.html", true);				
+		$this->createView("forward", "forward.html", true);				
 		
 		//为视图创建、添加textarea文本组件(Text::multiple 复文本) （Text::single 标准文本）
-		$this->defaultView->addWidget(new Text("text", "内容", "", Text::multiple), 'text')
+		$this->viewforward->addWidget(new Text("text", "内容", "", Text::multiple), 'text')
 			->dataVerifiers()
 			->add(Length::flyweight(array(0, 140)), "长度不能超过140个字");
 		
 		
 		//设定模型
-		$this->defaultView->setModel(new MicroBlogModel());	
+		$this->viewforward->setModel(new MicroBlogModel());	
 		
 	}
 	
@@ -80,19 +80,19 @@ class forward extends Controller {
 	 */
 	public function process() {		
 		
-		$this->defaultView->model()->load($this->aParams->get("id"),'mbid');
+		$this->viewforward->model()->load($this->aParams->get("id"),'mbid');
 		
 		
-		//var_dump($this->defaultView->model());
+		//var_dump($this->viewforward->model());
 		//转发判断
-		$forward = $this->defaultView->model()->data('forward');
-		$uid = $this->defaultView->model()->data('uid');
-		$ftext = $this->defaultView->model()->data('text');
+		$forward = $this->viewforward->model()->data('forward');
+		$uid = $this->viewforward->model()->data('uid');
+		$ftext = $this->viewforward->model()->data('text');
 		//转发过
 		if($forward!=0){
 			//取得用户名
-			$this->defaultView->model()->child('at')->loadChild($uid, "uid");			
-			$child = $this->defaultView->model()->child('at');			
+			$this->viewforward->model()->child('at')->loadChild($uid, "uid");			
+			$child = $this->viewforward->model()->child('at');			
 			foreach ($child->childIterator() as $row){				
 				if($row['uid']==$uid){
 					$username = $row["username"];
@@ -100,17 +100,17 @@ class forward extends Controller {
 				
 			}
 					
-			$this->defaultView->model()->setData('text', " //@".$username.":".$ftext);				
-			$this->defaultView->variables()->set('forward',$forward);
+			$this->viewforward->model()->setData('text', " //@".$username.":".$ftext);				
+			$this->viewforward->variables()->set('forward',$forward);
 			//将视图组件的数据与模型交换
-			$this->defaultView->exchangeData(DataExchanger::MODEL_TO_WIDGET) ;
+			$this->viewforward->exchangeData(DataExchanger::MODEL_TO_WIDGET) ;
 		}else{		
-			$this->defaultView->variables()->set('forward',0);
+			$this->viewforward->variables()->set('forward',0);
 		}
 		//插入false 更新true
-		$this->defaultView->model()->setSerialized(false) ;
+		$this->viewforward->model()->setSerialized(false) ;
 		//清除主键
-		$this->defaultView->model()->setData('mbid',null) ;
+		$this->viewforward->model()->setData('mbid',null) ;
 		
 		
 		//过滤话题的正则表达式
@@ -120,67 +120,67 @@ class forward extends Controller {
 		$user_pattern = "/\@([a-zA-z0-9_]+)/";
 	
 		//判断表单是否提交
-		if ($this->defaultView->isSubmit($this->aParams)) {
+		if ($this->viewforward->isSubmit($this->aParams)) {
 	
 			// 加载 视图组件的数据
-			$this->defaultView->loadWidgets($this->aParams);
+			$this->viewforward->loadWidgets($this->aParams);
 	
 			// 校验 视图组件的数据
-			if ($this->defaultView->verifyWidgets()) {
+			if ($this->viewforward->verifyWidgets()) {
 	
 				//将视图组件的数据与模型交换
-				$this->defaultView->exchangeData(DataExchanger::WIDGET_TO_MODEL);
+				$this->viewforward->exchangeData(DataExchanger::WIDGET_TO_MODEL);
 	
 				//用户ID（IdManager::fromSession()->currentId()->userId() 取得用户ID）
-				$this->defaultView->model()->setData('uid', IdManager::fromSession()->currentId()->userId());
+				$this->viewforward->model()->setData('uid', IdManager::fromSession()->currentId()->userId());
 	
 				//发布时间
-				$this->defaultView->model()->setData('time', time());
+				$this->viewforward->model()->setData('time', time());
 	
 				//客户端
-				$this->defaultView->model()->setData('client', 'web');
+				$this->viewforward->model()->setData('client', 'web');
 				
 				//转发ID
-				$this->defaultView->model()->setData('forward', $this->aParams->get("forward"));
+				$this->viewforward->model()->setData('forward', $this->aParams->get("forward"));
 				
 				//内容为空设置
-				$text = $this->defaultView->model()->data('text');				
+				$text = $this->viewforward->model()->data('text');				
 				if(empty($text)){
-					$this->defaultView->model()->setData('text', '转发微博');
+					$this->viewforward->model()->setData('text', '转发微博');
 				}
 			
 	
 				//过滤标签
-				preg_match_all($tag_pattern, $this->defaultView->model()->data('text'), $tagsarr);
+				preg_match_all($tag_pattern, $this->viewforward->model()->data('text'), $tagsarr);
 				//判断标签个数
 				if (count($tagsarr[1]) > 1) {
 					//遍历标签
 					for ($i = 0; $i < count($tagsarr[1]); $i++) {
 						//绑定标签数据
-						$this->defaultView->model()->child('tag')->buildChild($tagsarr[1][$i], "tag");
+						$this->viewforward->model()->child('tag')->buildChild($tagsarr[1][$i], "tag");
 					}
 				} elseif (count($tagsarr[1]) > 0)  {
-					$this->defaultView->model()->child('tag')->buildChild($tagsarr[1], "tag");
+					$this->viewforward->model()->child('tag')->buildChild($tagsarr[1], "tag");
 				}
 	
 				//过滤用户
-				preg_match_all($user_pattern, $this->defaultView->model()->data('text'), $usersarr);
+				preg_match_all($user_pattern, $this->viewforward->model()->data('text'), $usersarr);
 				 
 				//判断标签个数
 				if (count($usersarr[1]) > 1) {
 					//遍历标签
 					for ($i = 0; $i < count($usersarr[1]); $i++) {
 						//加载用户数据
-						$this->defaultView->model()->child('at')->loadChild($usersarr[1][$i], "username");
+						$this->viewforward->model()->child('at')->loadChild($usersarr[1][$i], "username");
 					}
 				} elseif (count($usersarr[1]) > 0)  {
-					$this->defaultView->model()->child('at')->loadChild($usersarr[1], "username");
+					$this->viewforward->model()->child('at')->loadChild($usersarr[1], "username");
 				}
 	
 				try {
 	
 					//保存数据
-					$this->defaultView->model()->save();
+					$this->viewforward->model()->save();
 					//echo "<pre>".print_r(DB::singleton()->executeLog())."</pre>";
 					//创建提示消息
 					Relocater::locate("/?c=microblog.mlist", "发布成功！");

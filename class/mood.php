@@ -49,8 +49,8 @@ class mood extends Controller {
 	 */
 	protected function init() {
 		
-		// 加载视图框架
-		$this->add(new FrontFrame());
+		
+		
 	
 		//创建默认视图
 		$this->createView("listView", "moodlist.html", true);
@@ -60,7 +60,7 @@ class mood extends Controller {
 	
 	
 		//绑定视图
-		$this->listView->add($this->formView) ;
+		$this->viewlistView->add($this->formView) ;
 		
 		//为视图创建、添加单选按钮组件
 		$this->formView->addWidget ( new RadioGroup('type'), 'type' )
@@ -78,7 +78,7 @@ class mood extends Controller {
 	
 		//设定模型
 		$this->formView->setModel(Model::fromFragment('mood'));
-		$this->listView->setModel(Model::fromFragment('mood',array('user'),true));
+		$this->viewlistView->setModel(Model::fromFragment('mood',array('user'),true));
 		$this->tmpmodel = Model::fromFragment('mood',array('user'),false);
 	}
 	
@@ -112,7 +112,7 @@ class mood extends Controller {
 		
 		
 		//向页面传送数据
-		$this->listView->variables()->set('myMood',$myMood);
+		$this->viewlistView->variables()->set('myMood',$myMood);
 		$this->formView->variables()->set('myMood',$myMood);
 		
 
@@ -120,8 +120,8 @@ class mood extends Controller {
 		//$this->tmpmodel->printStruct() ;
 		//转入同心情
 		if(count($myMood)>0){		
-			$this->listView->model()->load(array($myMood['type'],$myMood['update']),array('type','update'));
-		//$this->listView->model()->printStruct() ;
+			$this->viewlistView->model()->load(array($myMood['type'],$myMood['update']),array('type','update'));
+		//$this->viewlistView->model()->printStruct() ;
 		}
 		//判断表单是否提交
 		if ($this->formView->isSubmit($this->aParams)) {

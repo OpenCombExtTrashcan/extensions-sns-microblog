@@ -40,14 +40,14 @@ class mlist extends Controller {
      */
     protected function init() {
 
-        // 加载视图框架
-        $this->add(new FrontFrame());
+        
+        
 
         //创建默认视图
-        $this->createView("defaultView", "mlist.html", true);
+        $this->createView("mlist", "mlist.html", true);
 
         //设定模型
-        $this->defaultView->setModel(Model::fromFragment('microblog', array('userto','forward'=>array('userto')), true));
+        $this->viewmlist->setModel(Model::fromFragment('microblog', array('userto','forward'=>array('userto')), true));
     }
 
     /**
@@ -90,16 +90,16 @@ class mlist extends Controller {
         //载入当前用户的所有微博
         $userList = IdManager::fromSession();
        	if($this->aParams->get('uid')!=""){
-       		$this->defaultView->model()->load($this->aParams->get('uid'), "uid");
+       		$this->viewmlist->model()->load($this->aParams->get('uid'), "uid");
        	}else{
-        	$this->defaultView->model()->load($userList->currentId()->userId(), "uid");    
+        	$this->viewmlist->model()->load($userList->currentId()->userId(), "uid");    
        	}
        	
         //显示数据结构
-        //$this->defaultView->model()->printStruct() ;
+        //$this->viewmlist->model()->printStruct() ;
         
         //过滤话题和对象名       
-        foreach ($this->defaultView->model()->childIterator() as $row){        	
+        foreach ($this->viewmlist->model()->childIterator() as $row){        	
             $text = $row->data("text");
             $text = preg_replace($mood_pattern, '<a href=/${0}>${0}</a>', $text);
             $text = preg_replace($user_pattern, '<a href=/${1}>@${1}</a>', $text); 

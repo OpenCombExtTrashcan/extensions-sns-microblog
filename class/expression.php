@@ -32,14 +32,14 @@ class expression extends Controller {
 	 */
 	protected function init() {
 
-		// 加载视图框架
-		$this->add(new FrontFrame());
+		
+		
 
 		//创建默认视图
-		$this->createView("defaultView", "expression.html", true);
+		$this->createView("expression", "expression.html", true);
 
 		//设定模型
-		//$this->defaultView->setModel(Model::fromFragment('microblog', array('userto','forward'=>array('userto')), true));
+		//$this->viewexpression->setModel(Model::fromFragment('microblog', array('userto','forward'=>array('userto')), true));
 	}
 
 	/**
@@ -79,7 +79,7 @@ class expression extends Controller {
 			$v['text'] = preg_replace($tag_pattern, '<a href="/k/${1}">#${1}#</a>', $v['text']);
 			array_push($elistarr,$v) ;
 		}
-		$this->defaultView->variables()->set('elistarr',$elistarr);
+		$this->viewexpression->variables()->set('elistarr',$elistarr);
 	}
 
 }

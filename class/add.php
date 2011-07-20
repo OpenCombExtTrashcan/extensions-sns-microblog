@@ -53,31 +53,31 @@ class add extends Controller {
 		    echo "请先登陆";
 		}
         
-        // 加载视图框架
-        $this->add(new FrontFrame());
+        
+        
 
         //创建默认视图
-        $this->createView("defaultView", "add.html", true);
+        $this->createView("add", "add.html", true);
 
         //为视图创建、添加textarea文本组件(Text::multiple 复文本) （Text::single 标准文本）
-        $this->defaultView->addWidget(new Text("text", "内容", "", Text::multiple), 'text')
+        $this->viewadd->addWidget(new Text("text", "内容", "", Text::multiple), 'text')
                 ->dataVerifiers()
                 ->add(Length::flyweight(array(0, 140)), "长度不能超过140个字")
                 ->add(NotEmpty::singleton(), "必须输入");
 
         
         // 为视图创建、添加images文本组件
-        $this->defaultView->addWidget( new Text("image","图片"), 'image' );
+        $this->viewadd->addWidget( new Text("image","图片"), 'image' );
 
         // 为视图创建、添加videos文本组件
-        $this->defaultView->addWidget( new Text("video","视频"), 'video' );
+        $this->viewadd->addWidget( new Text("video","视频"), 'video' );
 
         // 为视图创建、添加musics文本组件
-        $this->defaultView->addWidget( new Text("music","音乐"), 'music' );
+        $this->viewadd->addWidget( new Text("music","音乐"), 'music' );
          
 
         //设定模型
-        $this->defaultView->setModel(new MicroBlogModel());
+        $this->viewadd->setModel(new MicroBlogModel());
     }
 
     /**
@@ -100,72 +100,72 @@ class add extends Controller {
         $user_pattern = "/\@([a-zA-z0-9_]+)/";
 
         //判断表单是否提交
-        if ($this->defaultView->isSubmit($this->aParams)) {
+        if ($this->viewadd->isSubmit($this->aParams)) {
 
             // 加载 视图组件的数据
-            $this->defaultView->loadWidgets($this->aParams);
+            $this->viewadd->loadWidgets($this->aParams);
 
             // 校验 视图组件的数据
-            if ($this->defaultView->verifyWidgets()) {
+            if ($this->viewadd->verifyWidgets()) {
 
                 //将视图组件的数据与模型交换
-                $this->defaultView->exchangeData(DataExchanger::WIDGET_TO_MODEL);
+                $this->viewadd->exchangeData(DataExchanger::WIDGET_TO_MODEL);
 
                 //用户ID（IdManager::fromSession()->currentId()->userId() 取得用户ID）
-                $this->defaultView->model()->setData('uid', IdManager::fromSession()->currentId()->userId());
+                $this->viewadd->model()->setData('uid', IdManager::fromSession()->currentId()->userId());
 
                 //发布时间
-                $this->defaultView->model()->setData('time', time());
+                $this->viewadd->model()->setData('time', time());
 
                 //客户端
-                $this->defaultView->model()->setData('client', 'web');
+                $this->viewadd->model()->setData('client', 'web');
 
                 //过滤标签
-                preg_match_all($tag_pattern, $this->defaultView->model()->data('text'), $tagsarr);
+                preg_match_all($tag_pattern, $this->viewadd->model()->data('text'), $tagsarr);
                 //判断标签个数
                 if (count($tagsarr[1]) > 1) {
                     //遍历标签
                     for ($i = 0; $i < count($tagsarr[1]); $i++) {
                         //绑定标签数据
-                        $this->defaultView->model()->child('tag')->buildChild($tagsarr[1][$i], "tag");
+                        $this->viewadd->model()->child('tag')->buildChild($tagsarr[1][$i], "tag");
                     }
                 } elseif (count($tagsarr[1]) > 0)  {
-                    $this->defaultView->model()->child('tag')->buildChild($tagsarr[1], "tag");
+                    $this->viewadd->model()->child('tag')->buildChild($tagsarr[1], "tag");
                 }
                 
                 //过滤表情
-                preg_match_all($mood_pattern, $this->defaultView->model()->data('text'), $moodsarr);
+                preg_match_all($mood_pattern, $this->viewadd->model()->data('text'), $moodsarr);
                 //判断表情个数
                 if (count($moodsarr[1]) > 1) {
                 	//遍历表情
                 	for ($i = 0; $i < count($moodsarr[1]); $i++) {
                 		//绑定表情数据
-                		$this->defaultView->model()->child('expression')->buildChild($moodsarr[1][$i], "expression");                		
+                		$this->viewadd->model()->child('expression')->buildChild($moodsarr[1][$i], "expression");                		
                 	}
                 } elseif (count($moodsarr[1]) > 0)  {
-                	$this->defaultView->model()->child('expression')->buildChild($moodsarr[1], "expression");                	
+                	$this->viewadd->model()->child('expression')->buildChild($moodsarr[1], "expression");                	
                 }
 
                 //过滤用户
-                preg_match_all($user_pattern, $this->defaultView->model()->data('text'), $usersarr);
+                preg_match_all($user_pattern, $this->viewadd->model()->data('text'), $usersarr);
                
                 //判断标签个数
                 if (count($usersarr[1]) > 1) {
                     //遍历标签
                     for ($i = 0; $i < count($usersarr[1]); $i++) {
                         //加载用户数据
-                        $this->defaultView->model()->child('at')->loadChild($usersarr[1][$i], "username");                        
+                        $this->viewadd->model()->child('at')->loadChild($usersarr[1][$i], "username");                        
                     }
                 } elseif (count($usersarr[1]) > 0)  {
-                    $this->defaultView->model()->child('at')->loadChild($usersarr[1], "username");                    
+                    $this->viewadd->model()->child('at')->loadChild($usersarr[1], "username");                    
                 }
 
                 try {
 
                     //保存数据
-                    $this->defaultView->model()->save();
+                    $this->viewadd->model()->save();
                     //echo "<pre>".print_r(DB::singleton()->executeLog())."</pre>";
-                    //$this->defaultView->model()->printStruct() ;
+                    //$this->viewadd->model()->printStruct() ;
                     //创建提示消息                    
                     Relocater::locate("/?c=microblog.mlist", "发布成功！");
                 } catch (ExecuteException $e) {

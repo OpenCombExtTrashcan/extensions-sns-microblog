@@ -48,8 +48,8 @@ class review extends Controller {
 	*/
 	protected function init() {
 	
-		// 加载视图框架
-		$this->add(new FrontFrame());
+		
+		
 	
 		//创建默认视图		
 		$this->createView("formView", "reviewform.html", true);

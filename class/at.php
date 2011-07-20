@@ -40,14 +40,14 @@ class at extends Controller {
      */
     protected function init() {
 
-        // 加载视图框架
-        $this->add(new FrontFrame());
+        
+        
 
         //创建默认视图
-        $this->createView("defaultView", "at.html", true);
+        $this->createView("at", "at.html", true);
 
         //设定模型
-        $this->defaultView->setModel(Model::fromFragment('at', array('microblog'=>array('forward'=>array('userto')),'user'), true));
+        $this->viewat->setModel(Model::fromFragment('at', array('microblog'=>array('forward'=>array('userto')),'user'), true));
     }
 
     /**
@@ -86,13 +86,13 @@ class at extends Controller {
         
         //载入当前用户的所有微博
         $userList = IdManager::fromSession();
-        $this->defaultView->model()->load($userList->currentId()->userId(), "at_uid");    
+        $this->viewat->model()->load($userList->currentId()->userId(), "at_uid");    
             
         //显示数据结构
-        //$this->defaultView->model()->printStruct() ;
+        //$this->viewat->model()->printStruct() ;
         
         //过滤话题和对象名       
-        foreach ($this->defaultView->model()->childIterator() as $row){        	
+        foreach ($this->viewat->model()->childIterator() as $row){        	
             $text = $row->child('microblog')->data("text");
             $text = preg_replace($user_pattern, '<a href=/${1}>@${1}</a>', $text); 
             $text = preg_replace($tag_pattern, '<a href="/k/${1}">#${1}#</a>', $text);

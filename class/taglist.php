@@ -46,14 +46,14 @@ class taglist extends Controller {
      *    @created    2011-07-04
      */
     protected function init() {
-        // 加载视图框架
-        $this->add(new FrontFrame());
+        
+        
 
         //创建默认视图
-        $this->createView("defaultView", "taglist.html", true);
+        $this->createView("taglist", "taglist.html", true);
         
         //设定模型
-        $this->defaultView->setModel(Model::fromFragment('mb_tag', array(), true));        
+        $this->viewtaglist->setModel(Model::fromFragment('mb_tag', array(), true));        
     }
     
     /**
@@ -67,7 +67,7 @@ class taglist extends Controller {
     public function process() {
         
         //载入数据
-        $this->defaultView->model()->load();
+        $this->viewtaglist->model()->load();
     }
 }
 ?>
