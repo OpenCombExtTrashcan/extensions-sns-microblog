@@ -5,4 +5,7 @@
 
 .allMlist li{clear:both; overflow:hidden; margin:0 0 12px;padding:0 0 12px;background:url(/platform/ui/images/column_line.gif) repeat-x 0 bottom; }
 .mblog_avatar{height:48px; width:48px; overflow:hidden; padding:1px; border:1px solid #ccc; display:block; float:left; margin-right:6px;}
-.mblog_feed{ float:left; margin-left:10px;}
+.mblog_feed{ float:left; margin-left:10px;width:840px;}
+.mblog_feed p a{color:#269dff; font-size:14px;}
+.mblog_operate{ float:right;}
+.mblog_forward{ border:1px solid #ccc; background:#f5f5f5; clear:both; float:left; width:820px;margin:10px 0; padding:10px;}

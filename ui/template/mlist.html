@@ -11,13 +11,15 @@
 			<img src="/extensions/coreuser/ui/images/avatar.jpg" alt="" />
 		</a>
 		<div class="mblog_feed">
-			{= $row->child('userto')->data('username') }:{= $row->data('text') } 
-			<div class=""> <a href="?c=microblog.delete&id={= $row->data('mbid') }">删除</a>   <a href="?c=microblog.forward&id={= $row->data('mbid') }">转发</a>    <a href="?c=microblog.review&id={= $row->data('mbid') }">评论</a></div>
+			<p><a href="">{= $row->child('userto')->data('username') }</a>：{= $row->data('text') } </p>
+			
 			<if "$row->data('forward')!=0" >
 				{? $forward=$row->child('forward'); }
-				&nbsp;&nbsp;&nbsp;{= $forward->child('userto')->data('username') }:{= $forward->data('text') }  <a href="?c=microblog.forward&id={= $forward->data('mbid') }">原文转发</a>    <a href="?c=microblog.review&id={= $forward->data('mbid') }">原文评论</a><br/>
+				<div class="mblog_forward">&nbsp;&nbsp;&nbsp;{= $forward->child('userto')->data('username') }：{= $forward->data('text') }  <a href="?c=microblog.forward&id={= $forward->data('mbid') }">原文转发</a>    <a href="?c=microblog.review&id={= $forward->data('mbid') }">原文评论</a></div>
 								
 			</if>
+			
+			<div class="mblog_operate"> <a href="?c=microblog.forward&id={= $row->data('mbid') }">转发</a>   <a href="?c=microblog.delete&id={= $row->data('mbid') }">删除</a>    <a href="?c=microblog.review&id={= $row->data('mbid') }">评论</a></div>
 		</div>
 	</li>		
 </foreach>
