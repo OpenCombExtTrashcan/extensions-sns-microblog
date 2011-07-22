@@ -15,7 +15,7 @@
 			
 			<if "$row->data('forward')!=0" >
 				{? $forward=$row->child('forward'); }
-				<div class="mblog_forward">&nbsp;&nbsp;&nbsp;{= $forward->child('userto')->data('username') }：{= $forward->data('text') }  <a href="?c=microblog.forward&id={= $forward->data('mbid') }">原文转发</a>    <a href="?c=microblog.review&id={= $forward->data('mbid') }">原文评论</a></div>
+				<div class="mblog_forward"><span class="source">{= $forward->child('userto')->data('username') }</span>：{= $forward->data('text') }  <a href="?c=microblog.forward&id={= $forward->data('mbid') }">原文转发</a>    <a href="?c=microblog.review&id={= $forward->data('mbid') }">原文评论</a></div>
 								
 			</if>
 			
