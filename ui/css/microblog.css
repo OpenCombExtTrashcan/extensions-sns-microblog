@@ -1,0 +1,8 @@
+
+.allMlist{border:1px solid #ccc;padding:14px;overflow:hidden; zoom:1;}
+.allMlist h4{ font-size:14px; font-weight:bold; color:#005eac; border-bottom:1px solid #ccc;padding-bottom:6px;margin-bottom:20px;}
+
+
+.allMlist li{clear:both; overflow:hidden; margin:0 0 12px;padding:0 0 12px;background:url(/platform/ui/images/column_line.gif) repeat-x 0 bottom; }
+.mblog_avatar{height:48px; width:48px; overflow:hidden; padding:1px; border:1px solid #ccc; display:block; float:left; margin-right:6px;}
+.mblog_feed{ float:left; margin-left:10px;}

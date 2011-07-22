@@ -1,9 +1,25 @@
+<css src="microblog.css" />
+
+
+<div class="allMlist">
+<h4>所有微博</h4>
+
+<ul>
 <foreach for="$theModel->childIterator()" item="row">					
-			{= $row->child('userto')->data('username') }:{= $row->data('text') }  <a href="?c=microblog.delete&id={= $row->data('mbid') }">删除</a>   <a href="?c=microblog.forward&id={= $row->data('mbid') }">转发</a>    <a href="?c=microblog.review&id={= $row->data('mbid') }">评论</a><br/>
+	<li>
+		<a href="" class="mblog_avatar">
+			<img src="/extensions/coreuser/ui/images/avatar.jpg" alt="" />
+		</a>
+		<div class="mblog_feed">
+			{= $row->child('userto')->data('username') }:{= $row->data('text') } 
+			<div class=""> <a href="?c=microblog.delete&id={= $row->data('mbid') }">删除</a>   <a href="?c=microblog.forward&id={= $row->data('mbid') }">转发</a>    <a href="?c=microblog.review&id={= $row->data('mbid') }">评论</a></div>
 			<if "$row->data('forward')!=0" >
 				{? $forward=$row->child('forward'); }
 				&nbsp;&nbsp;&nbsp;{= $forward->child('userto')->data('username') }:{= $forward->data('text') }  <a href="?c=microblog.forward&id={= $forward->data('mbid') }">原文转发</a>    <a href="?c=microblog.review&id={= $forward->data('mbid') }">原文评论</a><br/>
 								
 			</if>
-			
+		</div>
+	</li>		
 </foreach>
+</ul>
+</div>
