@@ -16,8 +16,8 @@ namespace oc\ext\microblog;
 //调用共通类
 use jc\mvc\model\db\orm\PrototypeAssociationMap;    //
 use jc\db\DB;                                   //
-use jc\db\PDODriver;                            //
-use oc\ext\Extension;                           //
+use jc\db\PDODriver; 
+use oc\ext\Extension;
 
 /**
  *   微博配置类
@@ -65,11 +65,11 @@ class MicroBlog extends Extension {
         //加载微博评论制器
         $this->application()->accessRouter()->addController("oc\\ext\\microblog\\review",'review');
         
-        //加载微博相同心情的朋友控制器
-        $this->application()->accessRouter()->addController("oc\\ext\\microblog\\mood",'mood');
-        
-        //加载微博相同心情的朋友控制器
-        $this->application()->accessRouter()->addController("oc\\ext\\microblog\\expression",'expression');
+//        //加载微博相同心情的朋友控制器
+//        $this->application()->accessRouter()->addController("oc\\ext\\microblog\\mood",'mood');
+//        
+//        //加载微博相同心情的朋友控制器
+//        $this->application()->accessRouter()->addController("oc\\ext\\microblog\\expression",'expression');
     }
 
 	public function defineOrm(PrototypeAssociationMap $aAssocMap)

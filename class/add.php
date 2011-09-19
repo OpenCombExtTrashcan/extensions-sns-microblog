@@ -53,9 +53,6 @@ class add extends Controller {
 		    echo "请先登陆";
 		}
         
-        
-        
-
         //创建默认视图
         $this->createView("add", "add.html", true);
 

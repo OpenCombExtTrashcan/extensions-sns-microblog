@@ -59,17 +59,17 @@ class review extends Controller {
 		
 		
 		//绑定视图
-		$this->formView->add($this->listView) ;	
+		$this->viewformView->add($this->listView) ;	
 		
 		
 		//为视图创建、添加textarea文本组件(Text::multiple 复文本) （Text::single 标准文本）
-		$this->formView->addWidget(new Text("text", "内容", "", Text::multiple), 'text')
+		$this->viewformView->addWidget(new Text("text", "内容", "", Text::multiple), 'text')
 			->dataVerifiers()
 			->add(Length::flyweight(array(0, 140)), "长度不能超过140个字")
 			->add(NotEmpty::singleton(), "必须输入");
 	
 		//设定模型
-		$this->formView->setModel(Model::fromFragment('review'));
+		$this->viewformView->setModel(Model::fromFragment('review'));
 		$this->listView->setModel(Model::fromFragment('review',array('microblog','user'),true));
 	}
 	
@@ -96,43 +96,43 @@ class review extends Controller {
 				}
 			
 			}
-			$this->formView->model()->setData('text', "回复@".$username.": ");
+			$this->viewformView->model()->setData('text', "回复@".$username.": ");
 			//将视图组件的数据与模型交换
-			$this->formView->exchangeData(DataExchanger::MODEL_TO_WIDGET) ;
+			$this->viewformView->exchangeData(DataExchanger::MODEL_TO_WIDGET) ;
 		}
 		//判断表单是否提交
-        if ($this->formView->isSubmit($this->aParams)) {
+        if ($this->viewformView->isSubmit($this->aParams)) {
 			
             // 加载 视图组件的数据
-            $this->formView->loadWidgets($this->aParams);
+            $this->viewformView->loadWidgets($this->aParams);
 
             // 校验 视图组件的数据
-            if ($this->formView->verifyWidgets()) {
+            if ($this->viewformView->verifyWidgets()) {
 
                 //将视图组件的数据与模型交换
-                $this->formView->exchangeData(DataExchanger::WIDGET_TO_MODEL);
+                $this->viewformView->exchangeData(DataExchanger::WIDGET_TO_MODEL);
 				
                 //
-                $this->formView->model()->setData('mbid', $this->aParams->get("mbid"));
+                $this->viewformView->model()->setData('mbid', $this->aParams->get("mbid"));
                 
                 //用户ID（IdManager::fromSession()->currentId()->userId() 取得用户ID）
-                $this->formView->model()->setData('at_uid', IdManager::fromSession()->currentId()->userId());
+                $this->viewformView->model()->setData('at_uid', IdManager::fromSession()->currentId()->userId());
 				
                 //回复状态
                 if($this->aParams->get("rid")!=''){
-                	$this->formView->model()->setData('reply', $this->aParams->get("rid"));
+                	$this->viewformView->model()->setData('reply', $this->aParams->get("rid"));
                 }else{
-                	$this->formView->model()->setData('reply', '0');
+                	$this->viewformView->model()->setData('reply', '0');
                 }
                 
                 //发布时间
-                $this->formView->model()->setData('time', time());
+                $this->viewformView->model()->setData('time', time());
 
                 try {
                 	
                     //保存数据
-                    if( $this->formView->model()->save() ){
-                    	//$this->formView->model()->printStruct() ;
+                    if( $this->viewformView->model()->save() ){
+                    	//$this->viewformView->model()->printStruct() ;
 	                    //echo "<pre>".print_r(DB::singleton()->executeLog())."</pre>";
 	                    //创建提示消息                    
 	                    Relocater::locate("/?c=microblog.mlist", "发布成功！");
