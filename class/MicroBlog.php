@@ -50,6 +50,8 @@ class MicroBlog extends Extension {
         //加载微博删除控制器
         $this->application()->accessRouter()->addController("oc\\ext\\microblog\\delete",'delete');
         
+        $this->application()->accessRouter()->addController("oc\\ext\\microblog\\tag",'tag');
+        
         //加载微博标签热度云梯（排名）控制器
         $this->application()->accessRouter()->addController("oc\\ext\\microblog\\taglist",'taglist');
         

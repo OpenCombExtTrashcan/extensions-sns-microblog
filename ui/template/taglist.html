@@ -6,7 +6,7 @@
 <ul>
 <foreach for="$theModel->childIterator()" item="row">
 	<li>
-			<span>{= $row->data('tag') }</span>
+			<span><a href="?c=microblog.tag&id={= $row->data('mbtid') }">{= $row->data('tag') }</a></span>
 	</li>			
 </foreach>
 </ul>
