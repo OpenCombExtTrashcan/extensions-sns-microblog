@@ -11,7 +11,7 @@
 			<img src="/extensions/coreuser/ui/images/avatar.jpg" alt="" />
 		</a>
 		<div class="mblog_feed">
-			<p><a href="">{= $row->child('userto')->data('username') }</a>：{= $row->data('text') } </p>
+			<p><a href="?c=microblog.user&id={= $row->child('userto')->data('uid') }">{= $row->child('userto')->data('username') }</a>：{= $row->data('text') } </p>
 			
 			<if "$row->data('forward')!=0" >
 				{? $forward=$row->child('forward'); }

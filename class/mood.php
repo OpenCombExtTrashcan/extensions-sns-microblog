@@ -58,7 +58,6 @@ class mood extends Controller {
 		//子视图创建
 		$this->formView = new View('formView',"moodform.html") ;
 	
-	
 		//绑定视图
 		$this->viewlistView->add($this->formView) ;
 		

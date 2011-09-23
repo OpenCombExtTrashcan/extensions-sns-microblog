@@ -1,16 +1,4 @@
 <?php
-
-// +----------------------------------------------------------------------
-// | WeiBo
-// +----------------------------------------------------------------------
-// | Copyright (c) 2011 http://www.sunmy.com.cn All rights reserved.
-// +----------------------------------------------------------------------
-// | Licensed ( http://www.apache.org/licenses/LICENSE-2.X )
-// +----------------------------------------------------------------------
-// | Author: luwei <solver.lu@gmail.com>
-// +----------------------------------------------------------------------
-// 1.0.0.1
-
 namespace oc\ext\microblog;
 
 //调用共通类
@@ -36,7 +24,7 @@ use jc\db\DB;                                   //数据库类
  *   @created    2011-07-07
  *   @history
  */
-class review extends Controller {
+Class review extends Controller {
 	
 	/**
 	*    初始化方法
@@ -47,9 +35,6 @@ class review extends Controller {
 	*    @created    2011-07-07
 	*/
 	protected function init() {
-	
-		
-		
 	
 		//创建默认视图		
 		$this->createView("formView", "reviewform.html", true);

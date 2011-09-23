@@ -30,18 +30,7 @@ use jc\auth\IdManager;                          //用户SESSION类
 
 class mlist extends Controller {
 
-    /**
-     *    初始化方法
-     *    @param      null
-     *    @package    microblog 
-     *    @return     null
-     *    @author     luwei
-     *    @created    2011-06-29
-     */
     protected function init() {
-
-        
-        
 
         //创建默认视图
         $this->createView("mlist", "mlist.html", true);
@@ -60,24 +49,6 @@ class mlist extends Controller {
      */
     public function process() {
     	
-        /*
-          微博中过滤话题和对象名的实例
-          =============================================================================================================================
-          $post_content = "@oschina和@twitter在研究用#PHP#的#正则表达式#过滤话题和对象名";
-
-          $tag_pattern = "/\#([^\#|.]+)\#/";
-          preg_match_all($tag_pattern, $post_content, $tagsarr);
-          var_dump($tagsarr);
-          $tags = implode(',', $tagsarr[1]);
-          echo $tags;
-          $user_pattern = "/\@([a-zA-z0-9_]+)/";
-          $post_content = preg_replace($user_pattern, '<a href="http://twitter.com/${1}">@${1}</a>', $post_content);
-          $post_content = preg_replace($tag_pattern, '<a href="http://twitter.com/search?q=#${1}">#${1}#</a>', $post_content);
-
-          echo $post_content;
-          ===============================================================================================================================
-         */
-    	
     	//过滤表情
     	$mood_pattern = "/\[([^\[\]|.]+)\]/";
     	
@@ -95,22 +66,19 @@ class mlist extends Controller {
         	$this->viewmlist->model()->load($userList->currentId()->userId(), "uid");    
        	}
        	
-        //显示数据结构
-        //$this->viewmlist->model()->printStruct() ;
-        
         //过滤话题和对象名       
         foreach ($this->viewmlist->model()->childIterator() as $row){        	
             $text = $row->data("text");
             $text = preg_replace($mood_pattern, '<a href=/${0}>${0}</a>', $text);
             $text = preg_replace($user_pattern, '<a href=/${1}>@${1}</a>', $text); 
-            $text = preg_replace($tag_pattern, '<a href="/k/${1}">#${1}#</a>', $text);
+            $text = preg_replace($tag_pattern, '<a href="?c=microblog.tag&tag=${1}">#${1}#</a>', $text);
             $row->setData("text",$text);
             if($row->data('forward')!=0){
             	$forward = $row->child('forward');
             	$text = $forward->data("text");
             	$text = preg_replace($mood_pattern, '<a href=/${0}>${0}</a>', $text);
             	$text = preg_replace($user_pattern, '<a href=/${1}>@${1}</a>', $text);
-            	$text = preg_replace($tag_pattern, '<a href="/k/${1}">#${1}#</a>', $text);
+            	$text = preg_replace($tag_pattern, '<a href="?c=microblog.tag&tag=${1}">#${1}#</a>', $text);
             	$forward->setData("text",$text);
             }            
 		}
