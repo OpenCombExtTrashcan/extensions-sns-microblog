@@ -1,0 +1,13 @@
+<css src="microblog.css" />
+
+
+<div class="mblog_taglist">
+<h4>微博标签</h4>
+<ul>
+    <foreach for="$theModel->childIterator()" item="row">
+        <li>
+                <span>{= $row->data('text') }</span>
+        </li>           
+    </foreach>
+</ul>
+</div>
