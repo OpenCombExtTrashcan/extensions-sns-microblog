@@ -95,9 +95,11 @@ class at extends Controller {
         foreach ($this->viewat->model()->childIterator() as $row){        	
             $text = $row->child('microblog')->data("text");
             $text = preg_replace($user_pattern, '<a href=/${1}>@${1}</a>', $text); 
-            $text = preg_replace($tag_pattern, '<a href="/k/${1}">#${1}#</a>', $text);
+            $text = preg_replace($tag_pattern, '<a href="?c=microblog.tag&tag=${1}">#${1}#</a>', $text);
             $row->child('microblog')->setData("text",$text);            
 		}
+		
+		//$this->viewat->model()->printStruct();
     }
 
 }

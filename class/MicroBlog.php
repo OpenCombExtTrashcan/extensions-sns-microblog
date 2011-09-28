@@ -42,6 +42,9 @@ class MicroBlog extends Extension {
         $this->defineOrm(PrototypeAssociationMap::singleton()) ;
         
         //加载微博列表控制器
+        $this->application()->accessRouter()->addController("oc\\ext\\microblog\\index",'index');
+        
+        //加载微博列表控制器
         $this->application()->accessRouter()->addController("oc\\ext\\microblog\\mlist",'mlist');
         
         //加载微博发布控制器
@@ -52,6 +55,7 @@ class MicroBlog extends Extension {
         
         $this->application()->accessRouter()->addController("oc\\ext\\microblog\\tag",'tag');
         $this->application()->accessRouter()->addController("oc\\ext\\microblog\\user",'user');
+        $this->application()->accessRouter()->addController("oc\\ext\\microblog\\userinfo",'userinfo');
         
         //加载微博标签热度云梯（排名）控制器
         $this->application()->accessRouter()->addController("oc\\ext\\microblog\\taglist",'taglist');
@@ -67,6 +71,8 @@ class MicroBlog extends Extension {
         
         //加载微博评论制器
         $this->application()->accessRouter()->addController("oc\\ext\\microblog\\review",'review');
+        
+        $this->application()->accessRouter()->addController("oc\\ext\\microblog\\isnew",'isnew');
         
 //        //加载微博相同心情的朋友控制器
 //        $this->application()->accessRouter()->addController("oc\\ext\\microblog\\mood",'mood');

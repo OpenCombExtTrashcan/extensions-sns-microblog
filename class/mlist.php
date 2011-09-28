@@ -1,16 +1,5 @@
 <?php
 
-// +----------------------------------------------------------------------
-// | WeiBo 
-// +----------------------------------------------------------------------
-// | Copyright (c) 2011 http://www.sunmy.com.cn All rights reserved.
-// +----------------------------------------------------------------------
-// | Licensed ( http://www.apache.org/licenses/LICENSE-2.X )
-// +----------------------------------------------------------------------
-// | Author: luwei <solver.lu@gmail.com>
-// +----------------------------------------------------------------------
-// 1.0.0.1
-
 namespace oc\ext\microblog;
 
 //调用共通类
@@ -20,14 +9,6 @@ use jc\mvc\model\db\orm\PrototypeAssociationMap;    //模型关系类
 use oc\mvc\model\db\Model;                      //模型类
 use jc\auth\IdManager;                          //用户SESSION类
 
-/**
- *   微博列表类
- *   @package    microblog
- *   @author     luwei
- *   @created    2011-06-29
- *   @history     
- */
-
 class mlist extends Controller {
 
     protected function init() {
@@ -36,17 +17,9 @@ class mlist extends Controller {
         $this->createView("mlist", "mlist.html", true);
 
         //设定模型
-        $this->viewmlist->setModel(Model::fromFragment('microblog', array('userto','forward'=>array('userto')), true));
+        $this->viewmlist->setModel(Model::fromFragment('microblog', array('userto'=>array("info"),'forward'=>array('userto')), true));
     }
 
-    /**
-     *    业务逻辑处理
-     *    @param      null
-     *    @package    microblog 
-     *    @return     null
-     *    @author     luwei
-     *    @created    2011-06-29
-     */
     public function process() {
     	
     	//过滤表情
@@ -58,13 +31,16 @@ class mlist extends Controller {
         //过滤@用户的正则表达式
         $user_pattern = "/\@([a-zA-z0-9_]+)/";
         
-        //载入当前用户的所有微博
+       	$this->viewmlist->model()->criteria()->orders()->add("time",false) ;
+
+       	//载入当前用户的所有微博
         $userList = IdManager::fromSession();
        	if($this->aParams->get('uid')!=""){
        		$this->viewmlist->model()->load($this->aParams->get('uid'), "uid");
        	}else{
         	$this->viewmlist->model()->load($userList->currentId()->userId(), "uid");    
        	}
+       	
        	
         //过滤话题和对象名       
         foreach ($this->viewmlist->model()->childIterator() as $row){        	
@@ -82,6 +58,8 @@ class mlist extends Controller {
             	$forward->setData("text",$text);
             }            
 		}
+		
+		// $this->viewmlist->model()->printStruct();
     }
 
 }

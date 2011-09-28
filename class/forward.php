@@ -1,15 +1,5 @@
 <?php
 
-// +----------------------------------------------------------------------
-// | WeiBo
-// +----------------------------------------------------------------------
-// | Copyright (c) 2011 http://www.sunmy.com.cn All rights reserved.
-// +----------------------------------------------------------------------
-// | Licensed ( http://www.apache.org/licenses/LICENSE-2.X )
-// +----------------------------------------------------------------------
-// | Author: luwei <solver.lu@gmail.com>
-// +----------------------------------------------------------------------
-// 1.0.0.1
 
 namespace oc\ext\microblog;
 
@@ -27,24 +17,9 @@ use jc\auth\IdManager;                          //用户SESSION类
 use jc\mvc\controller\Relocater;                //回调类
 use jc\db\DB;                                   //数据库类
 
-/**
- *   微博转发类
- *   @package    microblog
- *   @author     luwei
- *   @created    2011-07-06
- *   @history
- */
 
 class forward extends Controller {
 	
-	/**
-	 *    初始化方法
-	 *    @param      null
-	 *    @package    microblog
-	 *    @return     null
-	 *    @author     luwei
-	 *    @created    2011-07-06
-	 */
 	protected function init() {
 	
 		//是否登陆
@@ -53,14 +28,12 @@ class forward extends Controller {
 			echo "请先登陆";
 		}
 	
-		
-		
 	
 		//创建默认视图
 		$this->createView("forward", "forward.html", true);				
 		
 		//为视图创建、添加textarea文本组件(Text::multiple 复文本) （Text::single 标准文本）
-		$this->viewforward->addWidget(new Text("text", "内容", "", Text::multiple), 'text')
+		$this->viewforward->addWidget(new Text("newMtext", "内容", "", Text::multiple), 'text')
 			->dataVerifiers()
 			->add(Length::flyweight(array(0, 140)), "长度不能超过140个字");
 		
@@ -82,7 +55,6 @@ class forward extends Controller {
 		
 		$this->viewforward->model()->load($this->aParams->get("id"),'mbid');
 		
-		
 		//var_dump($this->viewforward->model());
 		//转发判断
 		$forward = $this->viewforward->model()->data('forward');
@@ -91,16 +63,13 @@ class forward extends Controller {
 		//转发过
 		if($forward!=0){
 			//取得用户名
-			$this->viewforward->model()->child('at')->loadChild($uid, "uid");			
-			$child = $this->viewforward->model()->child('at');			
-			foreach ($child->childIterator() as $row){				
-				if($row['uid']==$uid){
-					$username = $row["username"];
-				}
-				
-			}
-					
-			$this->viewforward->model()->setData('text', " //@".$username.":".$ftext);				
+		    $aModleForwardMb= new MicroBlogModel() ;
+		    $aModleForwardMb->load($forward,"mbid");
+		    if($aModleForwardMb->data("userto.username"))
+		    {
+                $this->viewforward->model()->setData('text', " //@".$aModleForwardMb->data("userto.username").":".$ftext);		        
+		    }
+			
 			$this->viewforward->variables()->set('forward',$forward);
 			//将视图组件的数据与模型交换
 			$this->viewforward->exchangeData(DataExchanger::MODEL_TO_WIDGET) ;
@@ -120,7 +89,7 @@ class forward extends Controller {
 		$user_pattern = "/\@([a-zA-z0-9_]+)/";
 	
 		//判断表单是否提交
-		if ($this->viewforward->isSubmit($this->aParams)) {
+		if ($this->viewforward->isSubmit($this->aParams) || $this->aParams->get("ajax")) {
 	
 			// 加载 视图组件的数据
 			$this->viewforward->loadWidgets($this->aParams);
@@ -165,7 +134,6 @@ class forward extends Controller {
 	
 				//过滤用户
 				preg_match_all($user_pattern, $this->viewforward->model()->data('text'), $usersarr);
-				 
 				//判断标签个数
 				if (count($usersarr[1]) > 1) {
 					//遍历标签
@@ -183,7 +151,7 @@ class forward extends Controller {
 					$this->viewforward->model()->save();
 					//echo "<pre>".print_r(DB::singleton()->executeLog())."</pre>";
 					//创建提示消息
-					Relocater::locate("/?c=microblog.mlist", "发布成功！");
+					//Relocater::locate("/?c=microblog.mlist", "发布成功！");
 				} catch (ExecuteException $e) {
 					throw $e;
 				}

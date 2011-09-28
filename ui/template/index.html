@@ -1,0 +1,84 @@
+<div class="w_content clearfix">
+        <div class="w_state">
+            <div class="personinfo">
+                <dl class="clearfix">
+                    <dt><a href="javascript:;"><img src="{/ext.realknowledgeplatform}/ui/images/test.jpg" width="64px" height="64px" /></a></dt>
+                    <dd>
+                        <a href="javascript:;">CrossJae</a>
+                        <p class="city">辽宁 , 大连</p>
+                    </dd>
+                </dl>
+            </div>
+            <ul class="user_stats clearfix">
+                <li><a href="javascript:;"><strong>1001</strong><span>关注</span></a></li>
+                <li><a href="javascript:;"><strong>1453390</strong><span>粉丝</span></a></li>
+                <li class="no_border"><a href="javascript:;"><strong>50053</strong><span>微博</span></a></li>
+            </ul>
+            <ul class="left_nav">
+                <li><a href="javascript:;">首页</a></li>
+                <li><a href="javascript:;" onClick="showAtList()">提到我的</a></li>
+                <li><a href="javascript:;">评论</a></li>
+                <li><a href="javascript:;">私信</a></li>
+                <li><a href="javascript:;">收藏</a></li>
+            </ul>
+        </div>
+        <div class="w_goto">
+            <ul>
+                <li><a class="now_page" href="javascript:;">全部微博</a></li>
+                <li><a href="javascript:;">相互关注</a></li>
+                <li><a href="javascript:;">我的微群</a></li>
+                <li><a href="javascript:;">猜你喜欢</a></li>
+            </ul>
+        </div>
+        <div class="w_chatbox">
+            <div class="chat_top">
+                <p class="limit_num">还可以输入<span id="contentNumDiv">140</span>字</p>
+                <p class="limit_num" style="display:none">已经超过<span class="num_error">40</span>字</p>
+                <div class="wantsay">
+                    <textarea id="mTitle" class="wantsay_area" oninput="checkStrNum(this.id,140,'contentNumDiv')" onpropertychange="checkStrNum(this.id,140,'contentNumDiv')"></textarea>
+                </div>
+                <div class="publish">
+                    <a href="javascript:;" onClick="addForward()" title="发布微博">发布</a>
+                </div>
+                <div class="kind"></div>
+            </div>
+            <div class="chat_main">
+                <span id="isnew" style="display:none"><a href="javascript:;" class="w_note" onClick="showMainList()">有<span id="isnew_n">0</span>条新微博 , 点击查看</a></span>
+                <div id="mainlist">
+                
+                </div>
+                <div class="w_page clearfix">
+                    <a class="w_button" href="javascript:;"><span>上一页</span></a>
+                    <div class="page_list">
+                    <a href="javascript:;">1</a>
+                    <strong>2</strong>
+                    <a href="javascript:;">3</a>
+                    <a href="javascript:;">4</a>
+                    <a href="javascript:;">5</a>
+                    <a href="javascript:;">6</a>
+                    <span>...</span>
+                    </div>
+                    <a class="w_button" href="javascript:;"><span>下一页</span></a>
+                </div>
+                <div class="clear"></div>
+            </div>
+        </div>
+    </div>
+    
+<div class="w_forward" style="position: absolute;top:0px;left:0px;display:none" id="w_forward">
+    
+</div>
+<a href="?c=microblog.taglist">标签列表(聚合)</a>  <a href="?c=microblog.tagtop">热度云梯（排名）</a>
+<script type="text/javascript">
+showMainList();
+window.setInterval(function(){
+	var num = newNumber(jQuery("#isnew").attr("nowTime"));
+	if(num != "0"){
+		jQuery("#isnew_n").html(num);
+		jQuery("#isnew").css("display","");
+	}
+	
+},5000);
+//alert(newNumber("1317023660"))
+</script>
+    

@@ -46,7 +46,6 @@ Class review extends Controller {
 		//绑定视图
 		$this->viewformView->add($this->listView) ;	
 		
-		
 		//为视图创建、添加textarea文本组件(Text::multiple 复文本) （Text::single 标准文本）
 		$this->viewformView->addWidget(new Text("text", "内容", "", Text::multiple), 'text')
 			->dataVerifiers()
@@ -68,23 +67,6 @@ Class review extends Controller {
 	 */
 	public function process() {
 		
-		//转入评论数据
-		$this->listView->model()->load($this->aParams->get("id"),'mbid');
-		
-		//回复评论
-		if($this->aParams->get("rid")!=''){
-			//遍历获取要回复的评论
-			foreach ($this->listView->model()->childIterator() as $row){
-				if($row['rid']==$this->aParams->get("rid")){
-					//获取用户名
-					$username=$row->child('user')->data('username');
-				}
-			
-			}
-			$this->viewformView->model()->setData('text', "回复@".$username.": ");
-			//将视图组件的数据与模型交换
-			$this->viewformView->exchangeData(DataExchanger::MODEL_TO_WIDGET) ;
-		}
 		//判断表单是否提交
         if ($this->viewformView->isSubmit($this->aParams)) {
 			
@@ -98,7 +80,7 @@ Class review extends Controller {
                 $this->viewformView->exchangeData(DataExchanger::WIDGET_TO_MODEL);
 				
                 //
-                $this->viewformView->model()->setData('mbid', $this->aParams->get("mbid"));
+                $this->viewformView->model()->setData('mbid', $this->aParams->get("id"));
                 
                 //用户ID（IdManager::fromSession()->currentId()->userId() 取得用户ID）
                 $this->viewformView->model()->setData('at_uid', IdManager::fromSession()->currentId()->userId());
@@ -120,7 +102,7 @@ Class review extends Controller {
                     	//$this->viewformView->model()->printStruct() ;
 	                    //echo "<pre>".print_r(DB::singleton()->executeLog())."</pre>";
 	                    //创建提示消息                    
-	                    Relocater::locate("/?c=microblog.mlist", "发布成功！");
+	                    //Relocater::locate("/?c=microblog.mlist", "发布成功！");
                     }
                    
                 } catch (ExecuteException $e) {
@@ -128,5 +110,27 @@ Class review extends Controller {
                 }
             }
         }
+        
+	
+		//转入评论数据
+		$this->listView->model()->load($this->aParams->get("id"),'mbid');
+		
+		//回复评论
+		if($this->aParams->get("rid")){
+			//遍历获取要回复的评论
+			foreach ($this->listView->model()->childIterator() as $row){
+				if($row['rid']==$this->aParams->get("rid")){
+					//获取用户名
+					$username=$row->child('user')->data('username');
+				}
+			
+			}
+			$this->viewformView->model()->setData('text', "回复@".@$username.": ");
+			//将视图组件的数据与模型交换
+		}else{
+		    $this->viewformView->model()->setData('text', "");
+			//将视图组件的数据与模型交换
+		}
+		$this->viewformView->exchangeData(DataExchanger::MODEL_TO_WIDGET) ;
     }
 }

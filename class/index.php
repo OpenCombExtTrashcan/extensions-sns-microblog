@@ -9,26 +9,26 @@ use jc\mvc\model\db\orm\PrototypeAssociationMap;    //模型关系类
 use oc\mvc\model\db\Model;                      //模型类
 use jc\auth\IdManager;                          //用户SESSION类
 
-class user extends Controller {
+
+Class index extends Controller {
 
     protected function init() {
 
         //创建默认视图
-        $this->createView("user", "user.html", true);
-
-        //设定模型
-        $this->viewuser->setModel(Model::fromFragment('coreuser:user', array('info'),true));
+        $this->createView("index", "index.html", true);
+        $this->add(new Userinfo);
     }
 
+    /**
+     *    业务逻辑处理
+     *    @param      null
+     *    @package    microblog 
+     *    @return     null
+     *    @author     luwei
+     *    @created    2011-06-29
+     */
     public function process() {
     	
-        if($this->aParams->get("username"))
-        {
-            $this->viewuser->model()->load($this->aParams->get("username"),"username");            
-        }else {
-            $this->viewuser->model()->load();
-        }
-        
     }
 
 }

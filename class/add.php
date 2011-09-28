@@ -97,7 +97,7 @@ class add extends Controller {
         $user_pattern = "/\@([a-zA-z0-9_]+)/";
 
         //判断表单是否提交
-        if ($this->viewadd->isSubmit($this->aParams)) {
+        if ($this->viewadd->isSubmit($this->aParams) || $this->aParams->get("ajax")) {
 
             // 加载 视图组件的数据
             $this->viewadd->loadWidgets($this->aParams);
