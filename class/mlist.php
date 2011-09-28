@@ -3,6 +3,8 @@
 namespace oc\ext\microblog;
 
 //调用共通类
+use jc\mvc\view\widget\Paginator;
+
 use oc\mvc\controller\Controller;               //控制器类
 use oc\base\FrontFrame;                         //视图框架类
 use jc\mvc\model\db\orm\PrototypeAssociationMap;    //模型关系类
@@ -15,7 +17,9 @@ class mlist extends Controller {
 
         //创建默认视图
         $this->createView("mlist", "mlist.html", true);
-
+    
+        $this->viewmlist->addWidget(new Paginator("paginator",$this->aParams));
+        
         //设定模型
         $this->viewmlist->setModel(Model::fromFragment('microblog', array('userto'=>array("info"),'forward'=>array('userto')), true));
     }

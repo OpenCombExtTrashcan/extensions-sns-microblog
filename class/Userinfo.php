@@ -22,7 +22,13 @@ Class Userinfo extends Controller {
 
     public function process() {
     	
-        $this->viewUserinfo->model()->load(IdManager::fromSession()->currentId()->userId(),"uid");            
+        $this->viewUserinfo->model()->load(IdManager::fromSession()->currentId()->userId(),"uid");     
+
+        $userModel = Model::fromFragment('coreuser:subscribe');
+        $userModel -> load(IdManager::fromSession()->currentId()->userId(),"uid");
+        $this->viewUserinfo->model()->setData("gz","dd");
+        $this->viewUserinfo->model()->setData("fs","dd");
+        $this->viewUserinfo->model()->setData("wb","dd");
         //$this->viewUserinfo->model()->printStruct();
     }
 }
