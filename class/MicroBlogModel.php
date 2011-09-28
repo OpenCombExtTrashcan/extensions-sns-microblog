@@ -40,7 +40,7 @@ class MicroBlogModel extends Model {
 	public function __construct($bAggregarion=false){
 		
 		//
-		parent::__construct(PrototypeAssociationMap::singleton()->fragment('microblog',array('tag','at','userto'), true),$bAggregarion);
+		parent::__construct(PrototypeAssociationMap::singleton()->fragment('microblog',array('tag','at'), true),$bAggregarion);
 	}
 	
 	/**

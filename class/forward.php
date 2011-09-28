@@ -43,14 +43,6 @@ class forward extends Controller {
 		
 	}
 	
-	/**
-	 *    业务逻辑处理
-	 *    @param      null
-	 *    @package    microblog
-	 *    @return     null
-	 *    @author     luwei
-	 *    @created    2011-06-28
-	 */
 	public function process() {		
 		
 		$this->viewforward->model()->load($this->aParams->get("id"),'mbid');
@@ -63,7 +55,7 @@ class forward extends Controller {
 		//转发过
 		if($forward!=0){
 			//取得用户名
-		    $aModleForwardMb= new MicroBlogModel() ;
+		    $aModleForwardMb = Model::fromFragment('microblog', array("userto")) ;
 		    $aModleForwardMb->load($forward,"mbid");
 		    if($aModleForwardMb->data("userto.username"))
 		    {
