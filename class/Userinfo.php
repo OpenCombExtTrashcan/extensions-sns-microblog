@@ -24,11 +24,18 @@ Class Userinfo extends Controller {
     	
         $this->viewUserinfo->model()->load(IdManager::fromSession()->currentId()->userId(),"uid");     
 
-        $userModel = Model::fromFragment('coreuser:subscribe');
-        $userModel -> load(IdManager::fromSession()->currentId()->userId(),"uid");
-        $this->viewUserinfo->model()->setData("gz","dd");
-        $this->viewUserinfo->model()->setData("fs","dd");
-        $this->viewUserinfo->model()->setData("wb","dd");
+        
+        $model = Model::fromFragment('coreuser:subscribe');
+        $model -> load(IdManager::fromSession()->currentId()->userId(),"uid");
+        $this->viewUserinfo->model()->setData("gz",$model->totalCount());
+        
+        $model = Model::fromFragment('coreuser:subscribe');
+        $model -> load(IdManager::fromSession()->currentId()->userId(),"subscribeid");
+        $this->viewUserinfo->model()->setData("fs",$model->totalCount());
+        
+        $model = Model::fromFragment('microblog');
+        $model -> load(IdManager::fromSession()->currentId()->userId(),"uid");
+        $this->viewUserinfo->model()->setData("wb",$model->totalCount());
         //$this->viewUserinfo->model()->printStruct();
     }
 }

@@ -66,6 +66,7 @@ class tagtop extends Controller {
     public function process() {
     	
     	//载入
+    	$this->viewtagtop->model()->criteria()->orders()->add("topnum",false) ;
     	$this->viewtagtop->model()->load();
     }
 }
