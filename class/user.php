@@ -3,6 +3,8 @@
 namespace oc\ext\microblog;
 
 //调用共通类
+use jc\mvc\view\widget\Paginator;
+
 use oc\mvc\controller\Controller;               //控制器类
 use oc\base\FrontFrame;                         //视图框架类
 use jc\mvc\model\db\orm\PrototypeAssociationMap;    //模型关系类
@@ -16,6 +18,8 @@ class user extends Controller {
         //创建默认视图
         $this->createView("user", "user.html", true);
 
+        $this->viewuser->addWidget(new Paginator("paginator",$this->aParams))->setPerPageCount(10);
+        
         //设定模型
         $this->viewuser->setModel(Model::fromFragment('coreuser:user', array('info'),true));
     }

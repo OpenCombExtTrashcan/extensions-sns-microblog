@@ -47,7 +47,7 @@ class at extends Controller {
         $this->createView("at", "at.html", true);
 
         //设定模型
-        $this->viewat->setModel(Model::fromFragment('at', array('microblog'=>array('forward'=>array('userto')),'user'), true));
+        $this->viewat->setModel(Model::fromFragment('at', array('microblog'=>array('forward'=>array('userto')),'user'=>array("info")), true));
     }
 
     /**
