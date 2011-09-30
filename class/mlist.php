@@ -21,7 +21,7 @@ class mlist extends Controller {
         $this->viewmlist->addWidget(new Paginator("paginator",$this->aParams));
         
         //设定模型
-        $this->viewmlist->setModel(Model::fromFragment('microblog', array('userto'=>array("usersubscribe","info"),'forward'=>array('userto')), true));
+        $this->viewmlist->setModel(Model::fromFragment('microblog', array('userto'=>array("info"),'forward'=>array('userto')), true));
     }
 
     public function process() {
@@ -38,13 +38,11 @@ class mlist extends Controller {
        	$this->viewmlist->model()->criteria()->orders()->add("time",false) ;
 
        	//载入当前用户的所有微博
-        $userList = IdManager::fromSession();
-       	if($this->aParams->get('uid')!=""){
-       		$this->viewmlist->model()->load($this->aParams->get('uid'), "uid");
-       	}else{
-        	$this->viewmlist->model()->load("15", "userto.usersubscribe.subscribeid");    
-       	}
-       	$this->viewmlist->model()->printStruct();
+    	$this->viewmlist->model()->criteria()->restriction()->setLogic(false);
+    	$this->viewmlist->model()->criteria()->restriction()->eq("uid","15");
+    	$this->viewmlist->model()->criteria()->restriction()->eq("uid",IdManager::fromSession()->currentId()->userId());
+    	$this->viewmlist->model()->load();  
+       	
        	
         //过滤话题和对象名       
         foreach ($this->viewmlist->model()->childIterator() as $row){        	
