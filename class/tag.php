@@ -17,16 +17,12 @@ class tag extends Controller {
 
         //创建默认视图
         $this->createView("tag", "tag.html", true);
+        $this->add(new TagtopPart());
 
-        $this->viewtag->addWidget(new Paginator("paginator",$this->aParams));
-        
-        //设定模型
-        $this->viewtag->setModel(Model::fromFragment('microblog', array('userto'=>array("info"),'tag'), true));
     }
 
     public function process() {
     	
-        $this->viewtag->model()->load("1","uid");
     }
 
 }

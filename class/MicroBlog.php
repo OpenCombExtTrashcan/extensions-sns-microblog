@@ -63,6 +63,7 @@ class MicroBlog extends Extension {
         
         //加载微博标签列表(聚合)控制器
         $this->application()->accessRouter()->addController("oc\\ext\\microblog\\tagtop",'tagtop');
+        $this->application()->accessRouter()->addController("oc\\ext\\microblog\\TagtopPart",'tagtopPart');
         
         //加载微博转发控制器
         $this->application()->accessRouter()->addController("oc\\ext\\microblog\\forward",'forward');
@@ -74,6 +75,9 @@ class MicroBlog extends Extension {
         $this->application()->accessRouter()->addController("oc\\ext\\microblog\\review",'review');
         
         $this->application()->accessRouter()->addController("oc\\ext\\microblog\\isnew",'isnew');
+        
+        $this->application()->accessRouter()->addController("oc\\ext\\microblog\\My",'my');
+        $this->application()->accessRouter()->addController("oc\\ext\\microblog\\Mylist",'mylist');
         
 //        //加载微博相同心情的朋友控制器
 //        $this->application()->accessRouter()->addController("oc\\ext\\microblog\\mood",'mood');
