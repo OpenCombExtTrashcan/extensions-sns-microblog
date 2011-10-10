@@ -11,17 +11,17 @@ use jc\mvc\model\db\orm\PrototypeAssociationMap;    //模型关系类
 use oc\mvc\model\db\Model;                      //模型类
 use jc\auth\IdManager;                          //用户SESSION类
 
-class mlist extends Controller {
+class Squarelist extends Controller {
 
     protected function init() {
 
         //创建默认视图
-        $this->createView("mlist", "mlist.html", true);
+        $this->createView("Squarelist", "Squarelist.html", true);
     
-        $this->viewmlist->addWidget(new Paginator("paginator",$this->aParams));
+        $this->viewSquarelist->addWidget(new Paginator("paginator",$this->aParams));
         
         //设定模型
-        $this->viewmlist->setModel(Model::fromFragment('microblog', array('userto'=>array("info"),'forward'=>array('userto')), true));
+        $this->viewSquarelist->setModel(Model::fromFragment('microblog', array('userto'=>array("info"),'forward'=>array('userto')), true));
     }
 
     public function process() {
@@ -35,17 +35,15 @@ class mlist extends Controller {
         //过滤@用户的正则表达式
         $user_pattern = "/\@([a-zA-z0-9_]+)/";
         
-       	$this->viewmlist->model()->criteria()->orders()->add("time",false) ;
+       	$this->viewSquarelist->model()->criteria()->orders()->add("time",false) ;
 
        	//载入当前用户的所有微博
-    	$this->viewmlist->model()->criteria()->restriction()->setLogic(false);
-    	$this->viewmlist->model()->criteria()->restriction()->eq("uid","15");
-    	$this->viewmlist->model()->criteria()->restriction()->eq("uid",IdManager::fromSession()->currentId()->userId());
-    	$this->viewmlist->model()->load();  
+    	$this->viewSquarelist->model()->criteria()->restriction()->setLogic(false);
+    	$this->viewSquarelist->model()->load();  
        	
        	
         //过滤话题和对象名       
-        foreach ($this->viewmlist->model()->childIterator() as $row){        	
+        foreach ($this->viewSquarelist->model()->childIterator() as $row){        	
             $text = $row->data("text");
             $text = preg_replace($mood_pattern, '<a href=/?c=microblog.my&name=${0}>${0}</a>', $text);
             $text = preg_replace($user_pattern, '<a href=/?c=microblog.my&name=${1}>@${1}</a>', $text); 
@@ -61,7 +59,7 @@ class mlist extends Controller {
             }            
 		}
 		
-		// $this->viewmlist->model()->printStruct();
+		// $this->viewSquarelist->model()->printStruct();
     }
 
 }

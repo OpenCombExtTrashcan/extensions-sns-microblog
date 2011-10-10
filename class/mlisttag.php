@@ -44,15 +44,15 @@ class mlisttag extends Controller {
         //过滤话题和对象名       
         foreach ($this->viewmlist->model()->childIterator() as $row){        	
             $text = $row->data("text");
-            $text = preg_replace($mood_pattern, '<a href=/${0}>${0}</a>', $text);
-            $text = preg_replace($user_pattern, '<a href=/${1}>@${1}</a>', $text); 
+            $text = preg_replace($mood_pattern, '<a href=/?c=microblog.my&name=${0}>${0}</a>', $text);
+            $text = preg_replace($user_pattern, '<a href=/?c=microblog.my&name=${1}>@${1}</a>', $text); 
             $text = preg_replace($tag_pattern, '<a href="?c=microblog.tag&tag=${1}">#${1}#</a>', $text);
             $row->setData("text",$text);
             if($row->data('forward')!=0){
             	$forward = $row->child('forward');
             	$text = $forward->data("text");
-            	$text = preg_replace($mood_pattern, '<a href=/${0}>${0}</a>', $text);
-            	$text = preg_replace($user_pattern, '<a href=/${1}>@${1}</a>', $text);
+            	$text = preg_replace($mood_pattern, '<a href=/?c=microblog.my&name=${0}>${0}</a>', $text);
+            	$text = preg_replace($user_pattern, '<a href=/?c=microblog.my&name=${1}>@${1}</a>', $text);
             	$text = preg_replace($tag_pattern, '<a href="?c=microblog.tag&tag=${1}">#${1}#</a>', $text);
             	$forward->setData("text",$text);
             }            

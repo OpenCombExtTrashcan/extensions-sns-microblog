@@ -22,18 +22,27 @@ Class My extends Controller {
 
     public function process() {
     	
-        $this->viewMy->model()->load($this->aParams->get("uid"),"uid");    
+        if($this->aParams->get("uid"))
+        {
+            $uid = $this->aParams->get("uid");
+        }else {
+            $model = Model::fromFragment('coreuser:user');
+            $model -> load($this->aParams->get("name"),"username");
+            $uid = $model->data("uid");
+        }
+        
+        $this->viewMy->model()->load($uid,"uid");    
         
         $model = Model::fromFragment('coreuser:subscribe');
-        $model -> load($this->aParams->get("id"),"uid");
+        $model -> load($uid,"uid");
         $this->viewMy->model()->setData("gz",$model->totalCount());
         
         $model = Model::fromFragment('coreuser:subscribe');
-        $model -> load($this->aParams->get("id"),"subscribeid");
+        $model -> load($uid,"subscribeid");
         $this->viewMy->model()->setData("fs",$model->totalCount());
         
         $model = Model::fromFragment('microblog');
-        $model -> load($this->aParams->get("id"),"uid");
+        $model -> load($uid,"uid");
         $this->viewMy->model()->setData("wb",$model->totalCount());
         
     }

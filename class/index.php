@@ -29,6 +29,24 @@ Class index extends Controller {
      */
     public function process() {
     	
+        //热
+        $model = Model::fromFragment('mb_tag', array(), true);
+    	$model->criteria()->orders()->add("topnum",false) ;
+    	$model->load();
+    	$this->viewindex->variables()->set("tagModel",$model);
+    	
+    	//推荐关注
+        $model = Model::fromFragment('coreuser:user', array("info"), true);
+        $model->criteria()->setLimit(5);
+    	$model->load();
+    	$this->viewindex->variables()->set("userModel1",$model);
+    	
+    	//感兴趣的人
+        $model = Model::fromFragment('coreuser:user', array("info"), true);
+        $model->criteria()->setLimit(5);
+    	$model->load();
+    	$this->viewindex->variables()->set("userModel2",$model);
+    	
     }
 
 }

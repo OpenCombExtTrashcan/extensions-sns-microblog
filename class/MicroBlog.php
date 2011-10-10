@@ -76,6 +76,9 @@ class MicroBlog extends Extension {
         
         $this->application()->accessRouter()->addController("oc\\ext\\microblog\\isnew",'isnew');
         
+        $this->application()->accessRouter()->addController("oc\\ext\\microblog\\Square",'square');
+        $this->application()->accessRouter()->addController("oc\\ext\\microblog\\Squarelist",'squarelist');
+        
         $this->application()->accessRouter()->addController("oc\\ext\\microblog\\My",'my');
         $this->application()->accessRouter()->addController("oc\\ext\\microblog\\Mylist",'mylist');
         
