@@ -53,7 +53,7 @@ class tagtop extends Controller {
         //创建默认视图
         $this->createView("tagtop", "tagtop.html", true);
         
-        $this->viewtagtop->addWidget(new Paginator("paginator",$this->aParams));
+        $this->viewtagtop->addWidget(new Paginator("paginator",$this->aParams))->setPerPageCount(50);
         
         //设定模型
         $this->viewtagtop->setModel(Model::fromFragment('mb_tag', array(), true));

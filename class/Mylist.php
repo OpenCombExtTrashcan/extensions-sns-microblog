@@ -18,49 +18,49 @@ Class Mylist extends Controller {
         //创建默认视图
         $this->createView("Mylist", "Mylist.html", true);
     
-        $this->viewMylist->addWidget(new Paginator("paginator",$this->aParams));
+        $this->viewMylist->addWidget(new Paginator("paginator",$this->aParams))->setPerPageCount(10);
         
         //设定模型
         $this->viewMylist->setModel(Model::fromFragment('microblog', array('userto'=>array("info"),'forward'=>array('userto')), true));
     }
 
     public function process() {
-    	
-    	//过滤表情
-    	$mood_pattern = "/\[([^\[\]|.]+)\]/";
-    	
+        
+        //过滤表情
+        $mood_pattern = "/\[([^\[\]|.]+)\]/";
+        
         //过滤话题的正则表达式
         $tag_pattern = "/\#([^\#|.]+)\#/";
         
         //过滤@用户的正则表达式
         $user_pattern = "/\@([a-zA-z0-9_]+)/";
         
-       	$this->viewMylist->model()->criteria()->orders()->add("time",false) ;
+        $this->viewMylist->model()->criteria()->orders()->add("time",false) ;
 
-       	//载入当前用户的所有微博
-    	$this->viewMylist->model()->criteria()->restriction()->setLogic(false);
-    	$this->viewMylist->model()->criteria()->restriction()->eq("uid",$this->aParams->get("id"));
-    	$this->viewMylist->model()->load();  
-       	
-       	
+        //载入当前用户的所有微博
+        $this->viewMylist->model()->criteria()->restriction()->setLogic(false);
+        $this->viewMylist->model()->criteria()->restriction()->eq("uid",$this->aParams->get("id"));
+        $this->viewMylist->model()->load();  
+        
+        
         //过滤话题和对象名       
-        foreach ($this->viewMylist->model()->childIterator() as $row){        	
+        foreach ($this->viewMylist->model()->childIterator() as $row){          
             $text = $row->data("text");
             $text = preg_replace($mood_pattern, '<a href=/?c=microblog.my&name=${0}>${0}</a>', $text);
             $text = preg_replace($user_pattern, '<a href=/?c=microblog.my&name=${1}>@${1}</a>', $text); 
             $text = preg_replace($tag_pattern, '<a href="?c=microblog.tag&tag=${1}">#${1}#</a>', $text);
             $row->setData("text",$text);
             if($row->data('forward')!=0){
-            	$forward = $row->child('forward');
-            	$text = $forward->data("text");
-            	$text = preg_replace($mood_pattern, '<a href=/?c=microblog.my&name=${0}>${0}</a>', $text);
-            	$text = preg_replace($user_pattern, '<a href=/?c=microblog.my&name=${1}>@${1}</a>', $text);
-            	$text = preg_replace($tag_pattern, '<a href="?c=microblog.tag&tag=${1}">#${1}#</a>', $text);
-            	$forward->setData("text",$text);
+                $forward = $row->child('forward');
+                $text = $forward->data("text");
+                $text = preg_replace($mood_pattern, '<a href=/?c=microblog.my&name=${0}>${0}</a>', $text);
+                $text = preg_replace($user_pattern, '<a href=/?c=microblog.my&name=${1}>@${1}</a>', $text);
+                $text = preg_replace($tag_pattern, '<a href="?c=microblog.tag&tag=${1}">#${1}#</a>', $text);
+                $forward->setData("text",$text);
             }            
-		}
-		
-		// $this->viewMylist->model()->printStruct();
+        }
+        
+        // $this->viewMylist->model()->printStruct();
     }
 
 }

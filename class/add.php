@@ -87,6 +87,8 @@ class add extends Controller {
      */
     public function process() {
     	
+        $this->requireLogined();
+        
     	//过滤表情
     	$mood_pattern = "/\[([^\[\]|.]+)\]/";
 

@@ -64,6 +64,8 @@ class delete extends Controller {
      */
     public function process() {
 
+        $this->requireLogined();
+        
         $this->model->load($this->aParams->get("id"), "mbid");
         $this->model->delete();
 

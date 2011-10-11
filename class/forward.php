@@ -22,13 +22,6 @@ class forward extends Controller {
 	
 	protected function init() {
 	
-		//是否登陆
-		if(!IdManager::fromSession()->currentId())
-		{
-			echo "请先登陆";
-		}
-	
-	
 		//创建默认视图
 		$this->createView("forward", "forward.html", true);				
 		
@@ -45,6 +38,7 @@ class forward extends Controller {
 	
 	public function process() {		
 		
+	    
 		$this->viewforward->model()->load($this->aParams->get("id"),'mbid');
 		
 		//var_dump($this->viewforward->model());
@@ -82,7 +76,12 @@ class forward extends Controller {
 	
 		//判断表单是否提交
 		if ($this->viewforward->isSubmit($this->aParams) || $this->aParams->get("ajax")) {
-	
+		
+            if(!IdManager::fromSession()->currentId())
+            {
+                echo "请先登陆";exit;
+            }
+            
 			// 加载 视图组件的数据
 			$this->viewforward->loadWidgets($this->aParams);
 	

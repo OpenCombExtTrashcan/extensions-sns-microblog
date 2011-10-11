@@ -3,6 +3,8 @@
 namespace oc\ext\microblog;
 
 //调用共通类
+use jc\mvc\controller\Relocater;
+
 use oc\mvc\controller\Controller;               //控制器类
 use oc\base\FrontFrame;                         //视图框架类
 use jc\mvc\model\db\orm\PrototypeAssociationMap;    //模型关系类
@@ -12,7 +14,6 @@ use jc\auth\IdManager;                          //用户SESSION类
 Class Userinfo extends Controller {
 
     protected function init() {
-
         //创建默认视图
         $this->createView("Userinfo", "userinfo.html", true);
 
@@ -22,6 +23,8 @@ Class Userinfo extends Controller {
 
     public function process() {
     	
+        $this->requireLogined();
+        
         $this->viewUserinfo->model()->load(IdManager::fromSession()->currentId()->userId(),"uid");     
 
         

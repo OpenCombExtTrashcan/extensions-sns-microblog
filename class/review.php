@@ -67,9 +67,15 @@ Class review extends Controller {
 	 */
 	public function process() {
 		
+	    
 		//判断表单是否提交
         if ($this->viewformView->isSubmit($this->aParams)) {
 			
+            if(!IdManager::fromSession()->currentId())
+            {
+                echo "请先登陆";exit;
+            }
+	    
             // 加载 视图组件的数据
             $this->viewformView->loadWidgets($this->aParams);
 
