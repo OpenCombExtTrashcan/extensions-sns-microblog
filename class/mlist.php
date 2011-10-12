@@ -38,8 +38,8 @@ class mlist extends Controller {
        	$this->viewmlist->model()->criteria()->orders()->add("time",false) ;
 
        	//载入当前用户的所有微博
-    	$this->viewmlist->model()->criteria()->restriction()->setLogic(false);
-    	$this->viewmlist->model()->criteria()->restriction()->eq("uid","15");
+    	//$this->viewmlist->model()->criteria()->restriction()->setLogic(false);
+    	//$this->viewmlist->model()->criteria()->restriction()->eq("uid","15");
     	$this->viewmlist->model()->criteria()->restriction()->eq("uid",IdManager::fromSession()->currentId()->userId());
     	$this->viewmlist->model()->load();  
        	

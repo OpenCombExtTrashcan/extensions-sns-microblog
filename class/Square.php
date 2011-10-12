@@ -23,6 +23,7 @@ Class Square extends Controller {
         //热
         $model = Model::fromFragment('mb_tag', array(), true);
     	$model->criteria()->orders()->add("topnum",false) ;
+    	$model->criteria()->setLimit(20);
     	$model->load();
     	$this->viewSquare->variables()->set("tagModel",$model);
     }

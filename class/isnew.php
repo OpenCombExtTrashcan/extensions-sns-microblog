@@ -23,6 +23,12 @@ Class isnew extends Controller {
         if($this->aParams->get("time"))
         {
             $this->model->criteria()->restriction()->gt("time",$this->aParams->get("time")) ;
+            
+            if($this->aParams->get("type") == 'index' || $this->aParams->get("type") == 'my')
+            {
+                $this->model->criteria()->restriction()->eq("uid",IdManager::fromSession()->currentId()->userId());
+            }
+            
             echo $this->model->totalCount();
             exit;
         }else{
