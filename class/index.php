@@ -46,7 +46,7 @@ Class index extends Controller {
     	
     	//感兴趣的人
         $model = Model::fromFragment('coreuser:user', array("info"), true);
-        $model->criteria()->setLimit(5);
+        $model->criteria()->setLimit(4);
     	$model->load();
     	$this->viewindex->variables()->set("userModel2",$model);
     	
