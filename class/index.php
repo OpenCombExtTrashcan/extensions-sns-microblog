@@ -30,7 +30,7 @@ Class index extends Controller {
      *    @created    2011-06-29
      */
     public function process() {
-        
+    	
         //热
         $model = Model::fromFragment('mb_tag', array(), true);
     	$model->criteria()->orders()->add("topnum",false) ;
@@ -49,6 +49,7 @@ Class index extends Controller {
         $model->criteria()->setLimit(4);
     	$model->load();
     	$this->viewindex->variables()->set("userModel2",$model);
+    	
     	
     }
 
